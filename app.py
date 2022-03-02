@@ -2,6 +2,8 @@ from flask import *
 from mysql.connector import Error,pooling
 import math
 
+from pymysql import NULL
+
 app=Flask(__name__, instance_relative_config=True)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
@@ -64,12 +66,12 @@ def attractions():
 		
 		if page > maxPage:
 			response = make_response({'error':True,'message':'The end of the page'}, 400)
-		elif page == 0:
-			response = make_response({'nextPage':maxPage,'data':data[:12]}, 200)
+		elif page == 0 and maxPage > 1:
+			response = make_response({'nextPage':1,'data':data[:12]}, 200)
 		elif (maxPage-page) == 0:
-			response = make_response({'nextPage':0,'data':data[12*page:]}, 200)
+			response = make_response({'nextPage':NULL,'data':data[12*page:]}, 200)
 		else:
-			response = make_response({'nextPage':maxPage-page,'data':data[12*page:12*page+12]})		
+			response = make_response({'nextPage':page+1,'data':data[12*page:12*page+12]})		
 	except:
 		response = make_response({'error':True,'message':'Error message from server'}, 500)
 
@@ -109,4 +111,4 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(port=3000)
+app.run(port=3000, debug=True)
