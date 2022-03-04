@@ -49,34 +49,34 @@ def attractions():
 		"Content-Type": "application/json"
 	}
 	page = int(request.args.get('page',0))
-	keyword = request.args.get('keyword')
-	
+	keyword = request.args.get('keyword','')
+
 	try:
-		if keyword is None:
-			keyword = ''
-		data = get_db("SELECT id,name,category,description,address,transport,mrt,latitude,longitude,images FROM attractions WHERE name LIKE %s", ['%'+keyword+'%'], 'all')
+		count_data = get_db("SELECT COUNT(*) FROM attractions WHERE name LIKE %s", ['%'+keyword+'%'], 'all')[0]['COUNT(*)']
+		page_range = int(page) * 12
+		data = get_db("SELECT id,name,category,description,address,transport,mrt,latitude,longitude,images FROM attractions WHERE name LIKE %s LIMIT %s OFFSET %s", ['%'+keyword+'%', 12, page_range], 'all')
 		for i in range(len(data)):
 			data[i]['images'] = data[i]['images'].split('https')
 			data[i]['images'] = ['https' + i for i in data[i]['images']][1:]
-
-		if len(data) % 12 == 0:
-			maxPage = math.floor(len(data)/12) - 1
-		else:
-			maxPage = math.floor(len(data)/12)
 		
-		if page > maxPage:
-			response = make_response({'error':True,'message':'The end of the page'}, 400)
-		elif page == 0 and maxPage > 1:
-			response = make_response({'nextPage':1,'data':data[:12]}, 200)
-		elif (maxPage-page) == 0:
-			response = make_response({'nextPage':NULL,'data':data[12*page:]}, 200)
+		if count_data % 12 == 0:
+			max_Page = math.floor(count_data/12) - 1
 		else:
-			response = make_response({'nextPage':page+1,'data':data[12*page:12*page+12]})		
+			max_Page = math.floor(count_data/12)
+		
+		if page > max_Page:
+			response = make_response({'error':True,'message':'The end of the page'}, 400)
+		elif page == 0 and max_Page > 1:
+			response = make_response({'nextPage':1,'data':data}, 200)
+		elif (max_Page-page) == 0:
+			response = make_response({'nextPage':NULL,'data':data}, 200)
+		else:
+			response = make_response({'nextPage':page+1,'data':data})
 	except:
 		response = make_response({'error':True,'message':'Error message from server'}, 500)
 
 	response.headers = headers
-	return response			
+	return response
 
 @app.route('/api/attraction/<int:attractionId>',methods=['GET'])
 def single_attraction(attractionId):
@@ -111,4 +111,4 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
-app.run(host='0.0.0.0',port=3000, debug=False)
+app.run(host='0.0.0.0',port=3000, debug=True)
