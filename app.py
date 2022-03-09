@@ -67,7 +67,7 @@ def attractions():
 		elif page == 0 and max_Page > 1:
 			response = make_response({'nextPage':1,'data':data}, 200)
 		elif (max_Page-page) == 0:
-			response = make_response({'nextPage':NULL,'data':data}, 200)
+			response = make_response({'nextPage':'NULL','data':data}, 200)
 		else:
 			response = make_response({'nextPage':page+1,'data':data})
 	except:
