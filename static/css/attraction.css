@@ -240,9 +240,15 @@ main>.address-container{
     margin-top: 20px;
     text-align: justify;
 }
+main>.address-container>:first-child{
+    font-weight: 700;
+}
 main>.transport-container{
     margin-top: 20px;
     text-align: justify;
+}
+main>.transport-container>:first-child{
+    font-weight: 700;
 }
 
 @media(max-width: 1200px){
