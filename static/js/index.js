@@ -32,16 +32,19 @@ function init(data, page, keyword){
         const subtitle = document.createElement('div');
         const subtitleMrt = document.createElement('div');
         const subtitleCategory = document.createElement('div');
+        const link = document.createElement('a');
 
         const name = data[i]['name'];
         const mrt = data[i]['mrt'];
         const category = data[i]['category'];
         const image = data[i]['images'][0];
+        const id = data[i]['id'];
         
         img.src = image;
         title.textContent = name;
         subtitleMrt.textContent = mrt;
         subtitleCategory.textContent = category;
+        link.href = `/attraction/${id}`;
 
         imgContainer.appendChild(img);
         subtitle.appendChild(subtitleMrt);
@@ -54,8 +57,9 @@ function init(data, page, keyword){
         info.appendChild(subtitle);
         info.setAttribute('class', 'info');
 
-        divContainer.appendChild(imgContainer);
-        divContainer.appendChild(info);
+        link.appendChild(imgContainer);
+        link.appendChild(info)
+        divContainer.appendChild(link);
         if(i === data.length-1){
             divContainer.setAttribute('class', 'last-child')
         }
