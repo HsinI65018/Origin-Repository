@@ -1,0 +1,265 @@
+/* header */
+header{
+    margin-top: 54px;
+    display: flex;
+    height: 320px;
+    background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%);
+}
+header>.bg{
+    height: 320px;
+    background-image: url('/static/img/welcome.png');
+    background-repeat: no-repeat;
+    background-position: center right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+header>.bg>.sloganContainer{
+    max-width: 1200px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sloganContainer>.slogan{
+    width: 1180px;
+    height: 78px;
+}
+.slogan>.title{
+    width: 1180px;
+    height: 41px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #F8F8F8;
+}
+.slogan>.subtitle{
+    width: 1180px;
+    height: 22px;
+    font-weight: 400;
+    color: #F8F8F8;
+}
+.search{
+    display: flex;
+    align-items: center;
+    width: 1180px;
+    height: 46px;
+}
+.search>form{
+    display: flex;
+    width: 460px;
+    height: 46px;
+}
+.search>form>input[type=text]{
+    width: 400px;
+    height: 46px;
+    background: #FFFFFF;
+    border: none;
+    padding: 0px 10px 0px 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.search>form>button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 46px;
+    border: none;
+    background: #448899;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+}
+
+/* main */
+main{
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2rem;
+    margin: 3rem auto;
+    min-height: calc(100vh - 54px - 104px - 320px - 6rem);
+}
+main div{
+    display: flex;
+    flex-direction: column;
+}
+main>div{
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    align-items: center;
+    width: 270px;
+    height: fit-content;
+}
+main>div>a>.imageContainer{
+    width: 270px;
+}
+main>div>a>.imageContainer.imageContainer>img{
+    max-width: 100%;
+    object-fit: cover;
+    aspect-ratio: 16/11;
+}
+main>div>a>.info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 268px;
+    height: 82px;
+}
+main>div>a>.info>.title{
+    width: 250px;
+    height: 22px;
+    font-weight: 700;
+}
+main>div>a>.info>.subtitle{
+    width: 250px;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+}
+main>div>a>.info>.subtitle>div:last-child{
+    display: flex;
+    align-items: flex-end;
+}
+main>.errorDiv{
+    border: none;
+}
+
+@media(max-width: 1200px){
+    nav>.navbarContainer{
+        width: 90%;
+        justify-content: space-between;
+    }
+    header>.bg{
+        width: 1200px;
+        background-size: 70%;
+        background-position: right bottom;
+    }
+    header>.bg>.sloganContainer{
+        width: 90%;
+        align-items: flex-start;
+    }
+    header>.bg>.sloganContainer>.slogan{
+        width: 80%;
+    }
+    header>.bg>.sloganContainer>.slogan>.title{
+        width: 80%;
+    }
+    header>.bg>.sloganContainer>.slogan>.subtitle{
+        width: 80%;
+    }
+    header>.bg>.sloganContainer>.search{
+        width: 80%;
+    }
+    
+    main{
+        grid-template-columns: repeat(2,1fr);
+        width: 90%;
+    }
+    main>div{
+        width: 100%;
+        height: auto;
+    }
+    main>div>a{
+        width: 100%;
+        height: auto;
+    }
+    main>div>a>.imageContainer{
+        width: inherit;
+        height: auto;
+    }
+    main>div>a>.imageContainer>img{
+        max-width: 100%;
+        aspect-ratio: 16/11;
+    }
+    main>div>a>.info{
+        width: 95%;
+        height: 90px;
+    }
+    main>div>a>.info>.title{
+        width: inherit;
+        height: 34px;
+    }
+    main>div>a>.info>.subtitle{
+        width: inherit;
+        height: 30px;
+    }
+}
+
+@media(max-width: 600px){
+    nav>.navbarContainer{
+        width: auto;
+        justify-content: space-around;
+    }
+    header>.bg{
+        width: 650px;
+        background-size: 100%;
+        background-position: 100px bottom;
+    }
+    header>.bg>.sloganContainer{
+        width: 340px;
+        height: 169px;
+    }
+    header>.bg>.sloganContainer>.slogan{
+        width: 320px;
+        height: 78px;
+    }
+    header>.bg>.sloganContainer>.slogan>.title{
+        width: 320px;
+        height: 41px;
+    }
+    header>.bg>.sloganContainer>.slogan>.subtitle{
+        width: 320px;
+        height: 22px;
+    }
+    header>.bg>.sloganContainer>.search{
+        width: 322px;
+        height: 46px;
+    }
+    .search>form{
+        width: 322px;
+        height: 46px;
+    }
+    .search>form>div{
+        width: 230px;
+        height: 46px;
+    }
+    .search>form>div>input[type=text]{
+        width: 230px;
+        height: 46px;
+    }
+    main{
+        grid-template-columns: repeat(1,1fr);
+        max-width: 352px;
+    }
+    main>div{
+        height: 280px;
+    }
+    main>div>a{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    main>div>a>.imageContainer{
+        height: 200px;
+    }
+    main>div>a>.imageContainer>img{
+        height: 200px;
+        aspect-ratio: 16/11;
+    }
+    main>div>a>.info{
+        height: 80px;
+    }
+    main>div>a>.info>.title{
+        height: 22px;
+    }
+    main>div>a>.info>.subtitle{
+        height: 20px;
+    }
+}
