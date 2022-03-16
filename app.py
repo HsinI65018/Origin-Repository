@@ -2,7 +2,7 @@ from flask import *
 from app import app
 from app.controller import attractions, single_attraction
 
-app.register_blueprint(attractions.attraction_blueprint)
+app.register_blueprint(attractions.attractions_blueprint)
 app.register_blueprint(single_attraction.single_attraction_blueprint)
 
 # Pages

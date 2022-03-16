@@ -2,9 +2,9 @@ from flask import *
 from app.model.db import get_db
 import math
 
-attraction_blueprint = Blueprint("attractions", __name__)
+attractions_blueprint = Blueprint("attractions", __name__)
 
-@attraction_blueprint.route('/api/attractions',methods=['GET'])
+@attractions_blueprint.route('/api/attractions',methods=['GET'])
 def attractions():
 	headers = {
 		"Content-Type": "application/json"
