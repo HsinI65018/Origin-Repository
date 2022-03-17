@@ -1,9 +1,8 @@
 from flask import *
 from app import app
-from app.controller import attractions, single_attraction
+from app.controller import attractions
 
 app.register_blueprint(attractions.attractions_blueprint)
-app.register_blueprint(single_attraction.single_attraction_blueprint)
 
 # Pages
 @app.route("/")
@@ -18,5 +17,3 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
-
-app.run(host='0.0.0.0',port=3000, debug=True)
