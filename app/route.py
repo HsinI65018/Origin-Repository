@@ -1,8 +1,9 @@
 from flask import *
 from app import app
-from app.controller import attractions
+from app.controller import attractions, user
 
 app.register_blueprint(attractions.attractions_blueprint)
+app.register_blueprint(user.user_blueprint)
 
 # Pages
 @app.route("/")

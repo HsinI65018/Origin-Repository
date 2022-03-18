@@ -1,7 +1,8 @@
+import createDivElement from './createDivElement.js'
+
 const main = document.querySelector('main');
-const errorDiv = document.createElement('div');
 const searchForm = document.querySelector('.searchForm');
-const word = document.querySelector('input');
+const word = document.querySelector('.search-input');
 const initpage = 0;
 const initKeyword = '';
 let data;
@@ -20,57 +21,11 @@ function fetchApi(page, keyword){
         }
     }).then((jsonData) => {
         data = jsonData['data'];
-        init(jsonData['nextPage'], keyword)
+        render(jsonData['nextPage'], keyword);
     }).catch((e) => {
-        errorDiv.textContent = `查無 '${keyword}' 的結果`;
-        errorDiv.setAttribute('class', 'errorDiv');
+        const errorDiv = new createDivElement(`查無 '${keyword}' 的結果`,'errorDiv').create();
         main.appendChild(errorDiv);
     })
-}
-
-//Create empty element
-function createElement(){
-    const divContainer = document.createElement('div');
-    const imgContainer = document.createElement('div');
-    const img = document.createElement('img');
-    const info = document.createElement('div');
-    const title = document.createElement('div');
-    const subtitle = document.createElement('div');
-    const subtitleMrt = document.createElement('div');
-    const subtitleCategory = document.createElement('div');
-    const link = document.createElement('a');
-
-    return {"divContainer":divContainer,"imgContainer":imgContainer,"img":img,"info":info,"title":title,"subtitle":subtitle,"subtitleMrt":subtitleMrt,"subtitleCategory":subtitleCategory,"link":link}
-}
-
-//Append data in empty element
-function appendElement(element, name, mrt, category, image, id, index){
-    element["img"].src = image;
-    element["title"].textContent = name;
-    element["subtitleMrt"].textContent = mrt;
-    element["subtitleCategory"].textContent = category;
-    element["link"].href = `/attraction/${id}`;
-    
-    element["imgContainer"].appendChild(element["img"]);
-    element["subtitle"].appendChild(element["subtitleMrt"]);
-    element["subtitle"].appendChild(element["subtitleCategory"]);
-    element["title"].setAttribute('class', 'title');
-    element["subtitle"].setAttribute('class', 'subtitle');
-    element["imgContainer"].setAttribute('class', 'imageContainer');
-    
-    element["info"].appendChild(element["title"]);
-    element["info"].appendChild(element["subtitle"]);
-    element["info"].setAttribute('class', 'info');
-
-    element["link"].appendChild(element["imgContainer"]);
-    element["link"].appendChild(element["info"])
-    element["divContainer"].appendChild(element["link"]);
-
-    if(index === data.length-1){
-        element["divContainer"].setAttribute('class', 'last-child');
-    }
-    
-    return element["divContainer"]
 }
 
 //Loading observator
@@ -94,35 +49,77 @@ function observator(page, keyword){
     }
 }
 
-function init(page, keyword){
+function render(page, keyword){
     for(let i = 0; i < data.length; i++){
-        const element = createElement();
-
         const name = data[i]['name'];
         const mrt = data[i]['mrt'];
         const category = data[i]['category'];
         const image = data[i]['images'][0];
         const id = data[i]['id'];
+
+        const divContainer = new createDivElement('','divContainer').create();
+        const imgContainer = new createDivElement('','imageContainer').create();
+        const info = new createDivElement('','info').create();
+        const title = new createDivElement(name, 'title').create();
+        const subtitle = new createDivElement('','subtitle').create();
+        const subtitleMrt = new createDivElement(mrt,'subtitleMrt').create();
+        const subtitleCategory = new createDivElement(category,'subtitleCatrgory').create();
+        const img = document.createElement('img');
+        const link = document.createElement('a');
         
-        const divContainer = appendElement(element, name, mrt, category, image, id, index=i)
-        
+        img.src = data[i]['images'][0];
+        link.href = `/attraction/${id}`;
+
+        imgContainer.appendChild(img);
+        subtitle.appendChild(subtitleMrt);
+        subtitle.appendChild(subtitleCategory);
+
+        info.appendChild(title);
+        info.appendChild(subtitle);
+
+        link.appendChild(imgContainer);
+        link.appendChild(info)
+        divContainer.appendChild(link);
+
+        if(i === data.length-1){
+            divContainer.setAttribute('class', 'last-child')
+        }
+
         main.appendChild(divContainer);
     }
     observator(page, keyword);
 }
 
-//Remove init data
-function removeData(){
-    const divs = document.querySelectorAll('main > div');
-    divs.forEach((div) => {
-        div.remove();
-    })
-}
 //search
 function search(e){
     e.preventDefault();
-    removeData()
+    main.innerHTML = '';
     fetchApi(initpage, word.value);
     word.value = '';
 }
 searchForm.addEventListener('submit',search);
+
+
+// NOT DONE!!
+
+//login/register
+const member = document.querySelector('.member');
+const login = document.querySelector('.login');
+const register = document.querySelector('.register');
+
+function showMember(){
+    //login.classList.add('show');
+    register.classList.add('show');
+}
+member.addEventListener('click', showMember)
+
+//close login/register
+const loginClose = document.querySelector('.login-close');
+const registerClose = document.querySelector('.register-close');
+
+function closeMember(){
+    //login.classList.remove('show');
+    register.classList.remove('show')
+}
+loginClose.addEventListener('click', closeMember);
+registerClose.addEventListener('click', closeMember);

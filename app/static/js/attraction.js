@@ -1,3 +1,5 @@
+import createDivElement from './createDivElement.js'
+
 const main = document.querySelector('main');
 const imageContainer = document.querySelector('.img-container');
 const spotContainer = document.querySelector('.spot-container');
@@ -19,59 +21,22 @@ function fetchAPI(id){
         }
     }).then((jsonData) => {
         data = jsonData['data'];
-        init()
+        render();
     }).catch((e) => {
         console.log(e);
     })
 }
 
-//Create empty element
-function createElement(){
-    const descContainer = document.createElement('div');
-    const addressContainer = document.createElement('div');
-    const transportContainer = document.createElement('div');
-    const addressTitle = document.createElement('div');
-    const transportTitle = document.createElement('div');
-    const addressContent = document.createElement('div');
-    const transportContent = document.createElement('div');
-
-    return {"descContainer":descContainer, "addressContainer":addressContainer, "transportContainer":transportContainer, "addressTitle":addressTitle, "transportTitle":transportTitle, "addressContent":addressContent, "transportContent":transportContent}
-}
-
-//Append data in empty element
-function appendElement(element, title, subtitle, desc, address, transport){
-    titleContainer.textContent = title;
-    subtitleContainer.textContent = subtitle;
-
-    element["descContainer"].textContent = desc;
-    element["descContainer"].setAttribute('class', 'desc-container');
-
-    element["addressTitle"].textContent = '景點地址：';
-    element["addressContent"].textContent = address;
-    element["addressContainer"].appendChild(element["addressTitle"]);
-    element["addressContainer"].appendChild(element["addressContent"]);
-    element["addressContainer"].setAttribute('class', 'address-container');
-
-    element["transportTitle"].textContent = '交通方式：';
-    element["transportContent"].textContent = transport;
-    element["transportContainer"].appendChild(element["transportTitle"]);
-    element["transportContainer"].appendChild(element["transportContent"]);
-    element["transportContainer"].setAttribute('class', 'transport-container');
-
-    return {"descContainer":element["descContainer"], "addressContainer":element["addressContainer"], "transportContainer":element["transportContainer"]}
-}
-
 //separate images process
-function initImage(){
+function renderImage(){
     const images = data['images'];
     for(let i = 0; i < images.length; i++){
         const img = document.createElement('img');
-        const spot = document.createElement('div');
-        const innerSpot = document.createElement('div');
+        const spot = new createDivElement('','spot').create();
+        const innerSpot = new createDivElement().create();
 
         img.src = images[i];
-        img.setAttribute('id', i)
-        spot.setAttribute('class', 'spot');
+        img.setAttribute('id', i);
 
         if(i === 0){
             img.setAttribute('class', 'show');
@@ -91,24 +56,34 @@ function initImage(){
     }
 }
 
-function init(){
-    const element = createElement();
-
-    const title = data['name'];
-    const subtitle = data['category'] + ' at ' + data['mrt'];
+function render(){
     const desc = data['description'];
     const address = data['address'];
     const transport = data['transport'];
 
-    const container = appendElement(element, title, subtitle, desc, address, transport);
+    const descContainer = new createDivElement(desc, 'desc').create();
+    const addressContainer = new createDivElement('','address-container').create();
+    const transportContainer = new createDivElement('','transport-container').create();
+    const addressTitle = new createDivElement('景點地址：','addressTitle').create();
+    const transportTitle = new createDivElement('交通方式：','transportTitle').create();
+    const addressContent = new createDivElement(address, 'addressContent').create();
+    const transportContent = new createDivElement(transport,'transportContent').create();
 
-    main.appendChild(container["descContainer"]);
-    main.appendChild(container["addressContainer"]);
-    main.appendChild(container["transportContainer"]);
+    titleContainer.textContent = data['name'];
+    subtitleContainer.textContent = data['category'] + ' at ' + data['mrt'];
 
-    initImage();
+    addressContainer.appendChild(addressTitle);
+    addressContainer.appendChild(addressContent);
+
+    transportContainer.appendChild(transportTitle);
+    transportContainer.appendChild(transportContent);
+
+    main.appendChild(descContainer);
+    main.appendChild(addressContainer);
+    main.appendChild(transportContainer);
+
+    renderImage();
 }
-
 
 //carousel controller
 const leftBtn = document.querySelector('.arrow-container').children[0];
@@ -165,9 +140,9 @@ function changeImage(e){
     const totalPage = document.querySelector('.spot-container').children.length;
 
     if(target === 'left'){
-        prevImage(showImg, rightImg, totalPage)
+        prevImage(showImg, rightImg, totalPage);
     }else if(target === 'right'){
-        nextImage(showImg, rightImg, totalPage)
+        nextImage(showImg, rightImg, totalPage);
     }
 }
 rightBtn.addEventListener('click', changeImage);
@@ -179,10 +154,10 @@ const amBtn = document.querySelector('#am');
 const pmBtn = document.querySelector('#pm');
 
 function changeAttribute(click, unClick, ticketPrice){
-    const price = document.querySelector('#price');
+    const priceTag = document.querySelector('#price');
     click.setAttribute('class', 'inner-radio-btn');
     unClick.removeAttribute('class', 'inner-radio-btn');
-    price.textContent = `新台幣 ${ticketPrice} 元`;
+    priceTag.textContent = `新台幣 ${ticketPrice} 元`;
 }
 
 function changePrice(e){
@@ -191,9 +166,9 @@ function changePrice(e){
     const pmInnerBtn = document.querySelector('#pm>div');
     
     if(target === 'am'){
-        changeAttribute(amInnerBtn, pmInnerBtn, price=2000)
+        changeAttribute(amInnerBtn, pmInnerBtn, 2000);
     }else if(target === 'pm'){
-        changeAttribute(pmInnerBtn, amInnerBtn, price=2500)
+        changeAttribute(pmInnerBtn, amInnerBtn, 2500);
     }
 }
 amBtn.addEventListener('click', changePrice);
