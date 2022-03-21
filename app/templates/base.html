@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北一日遊</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <div class="navbarContainer">
+            <div class="navbarTitle">
+                <a href="/">台北一日遊</a>
+            </div>
+            <div class="btnContainer">
+                <div class="btn2">
+                    <a href="#">預定行程</a>
+                </div>
+                <div class="btn1">
+                    <div class="member">登入/註冊</div>
+                </div>
+            </div>
+        </div>
+        <section>
+            <div class="login">
+                <div class="user-container">
+                    <div class="title-container">
+                        <div class="title">登入會員帳號</div>
+                        <img src="/static/img/icon_close.png" class="login-close">
+                    </div>
+                    <div class="form-container">
+                        <form class="login-form">
+                            <input type="email" placeholder="輸入電子信箱" required>
+                            <input type="password" placeholder="輸入密碼" required>
+                            <button type="submit" class="btn">登入帳戶</button>
+                            <div></div>
+                        </form>
+                    </div>
+                    <div class="info">
+                        <div class="register-btn">還沒有帳戶？點此註冊</div>
+                    </div>
+                </div>
+            </div>
+            <div class="register">
+                <div class="user-container">
+                    <div class="title-container">
+                        <div class="title">註冊會員帳號</div>
+                        <img src="/static/img/icon_close.png" class="register-close">
+                    </div>
+                    <div class="form-container">
+                        <form class="register-form">
+                            <input type="text" placeholder="輸入姓名" required>
+                            <input type="email" placeholder="輸入電子信箱" required>
+                            <input type="password" placeholder="輸入密碼" required>
+                            <button type="submit" class="btn">註冊新帳戶</button>
+                            <div></div>
+                        </form>
+                    </div>
+                    <div class="info">
+                        <div class="login-btn">已經有帳戶了？點此登入</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </nav>
+    {% block header %}{% endblock %}
+    {% block main %}{% endblock %}
+    <footer>
+        <div>COPYRIGHT © 2021 台北一日遊</div>
+    </footer>
+    <script src="/static/js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+header{
+    margin-top: 54px;
+    color: #666666;
+    padding: 40px 0px 30px 0px;
+}
+header>div:first-child{
+    width: 1000px;
+    height: 27px;
+    margin: auto;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+header>div:last-child{
+    width: 1000px;
+    height: 24px;
+    margin: auto;
+}
+footer{
+    align-items: flex-start;
+    min-height: calc(100vh - 54px - 151px);
+}
+footer>div{
+    margin-top: 45px;
+}
+
+@media(max-width: 1200px){
+    header>div:first-child{
+        width: 90%;
+    }
+    header>div:last-child{
+        width: 90%;
+    }
+}
+@media(max-width: 600px){
+    header>div:first-child{
+        width: 90%;
+    }
+    header>div:last-child{
+        width: 90%;
+    }
+}
