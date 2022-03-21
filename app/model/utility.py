@@ -24,7 +24,7 @@ def get_db(sql,var,type):
 				return cursor.fetchone()
 			elif type == 'none':
 				connection_object.commit()	
-				return {200: 'commit successfully!'}	
+				return {"ok": True}	
 	except Error as e:
 		print(e)
 	finally:

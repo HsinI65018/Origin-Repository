@@ -5,7 +5,7 @@ connection = mysql.connector.connect(host='localhost',user=config.DB_USER, passw
 cursor = connection.cursor()
 
 cursor.execute(
-    "CREATE TABLE member (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255))"
+    "CREATE TABLE member (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255) UNIQUE, password VARCHAR(255))"
 )
 
 connection.close()

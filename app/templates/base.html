@@ -19,7 +19,7 @@
                     <a href="#">預定行程</a>
                 </div>
                 <div class="btn1">
-                    <a href="#" class="member">登入/註冊</a>
+                    <div class="member">登入/註冊</div>
                 </div>
             </div>
         </div>
@@ -31,15 +31,15 @@
                         <img src="/static/img/icon_close.png" class="login-close">
                     </div>
                     <div class="form-container">
-                        <form>
-                            <input type="email" placeholder="輸入電子信箱">
-                            <input type="password" placeholder="輸入密碼">
-                            <button type="submit">登入帳戶</button>
+                        <form class="login-form">
+                            <input type="email" placeholder="輸入電子信箱" required>
+                            <input type="password" placeholder="輸入密碼" required>
+                            <button type="submit" class="btn">登入帳戶</button>
+                            <div></div>
                         </form>
                     </div>
                     <div class="info">
-                        <div>還沒有帳戶？</div>
-                        <a href="#">點此註冊</a>
+                        <div class="register-btn">還沒有帳戶？點此註冊</div>
                     </div>
                 </div>
             </div>
@@ -50,16 +50,16 @@
                         <img src="/static/img/icon_close.png" class="register-close">
                     </div>
                     <div class="form-container">
-                        <form>
-                            <input type="text" placeholder="輸入姓名">
-                            <input type="email" placeholder="輸入電子信箱">
-                            <input type="password" placeholder="輸入密碼">
-                            <button type="submit">註冊新帳戶</button>
+                        <form class="register-form">
+                            <input type="text" placeholder="輸入姓名" required>
+                            <input type="email" placeholder="輸入電子信箱" required>
+                            <input type="password" placeholder="輸入密碼" required>
+                            <button type="submit" class="btn">註冊新帳戶</button>
+                            <div></div>
                         </form>
                     </div>
                     <div class="info">
-                        <div>已經有帳戶了？</div>
-                        <a href="#">點此登入</a>
+                        <div class="login-btn">已經有帳戶了？點此登入</div>
                     </div>
                 </div>
             </div>
@@ -70,5 +70,6 @@
     <footer>
         <div>COPYRIGHT © 2021 台北一日遊</div>
     </footer>
+    <script src="/static/js/user.js"></script>
 </body>
 </html>

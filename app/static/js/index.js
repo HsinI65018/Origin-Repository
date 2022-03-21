@@ -98,28 +98,3 @@ function search(e){
     word.value = '';
 }
 searchForm.addEventListener('submit',search);
-
-
-// NOT DONE!!
-
-//login/register
-const member = document.querySelector('.member');
-const login = document.querySelector('.login');
-const register = document.querySelector('.register');
-
-function showMember(){
-    //login.classList.add('show');
-    register.classList.add('show');
-}
-member.addEventListener('click', showMember)
-
-//close login/register
-const loginClose = document.querySelector('.login-close');
-const registerClose = document.querySelector('.register-close');
-
-function closeMember(){
-    //login.classList.remove('show');
-    register.classList.remove('show')
-}
-loginClose.addEventListener('click', closeMember);
-registerClose.addEventListener('click', closeMember);

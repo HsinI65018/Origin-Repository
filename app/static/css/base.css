@@ -11,11 +11,9 @@ nav{
     position: fixed;
     top: 0;
     width: 100%;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
     height: 54px;
     background: #FFFFFF;
+    border-bottom: 1px solid #E8E8E8;;
 }
 .navbarContainer{
     width: 1200px;
@@ -112,7 +110,7 @@ section{
     border-radius: 5px;
     padding: 15px;
 }
-.form-container>form>button{
+.form-container>form>.btn{
     width: 310px;
     height: 47px;
     background: #448899;
@@ -122,10 +120,16 @@ section{
     border: none;
     cursor: pointer;
 }
+.form-container>form>.showMsg{
+    text-align: center;
+    color: #E00000;
+    margin-bottom: 10px;
+}
 .user-container>.info{
     display: flex;
     color: #666666;
     margin-bottom: 15px;
+    cursor: pointer;
 }
 .show{
     display: block;

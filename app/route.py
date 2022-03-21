@@ -1,6 +1,7 @@
 from flask import *
 from app import app
 from app.controller import attractions, user
+from flask_jwt_extended import *
 
 app.register_blueprint(attractions.attractions_blueprint)
 app.register_blueprint(user.user_blueprint)
