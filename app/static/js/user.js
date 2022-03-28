@@ -19,17 +19,15 @@ const checkLoginStatus =  async() => {
     const booking = document.querySelector('.booking');
     booking.addEventListener('click', showLogin)
 
-    if(window.location.pathname === '/booking'){
-        if(loginStatus === 'null'){
-            window.location = '/';
-        }else{
-            const userName = document.querySelector('.user-name');
-            const contactName = document.querySelector('.contact-name');
-            const contactEmail = document.querySelector('.contact-email');
-            userName.textContent = loginStatus['name'];
-            contactName.value = loginStatus['name'];
-            contactEmail.value = loginStatus['email'];
-        }
+    if(window.location.pathname === '/booking' && loginStatus === 'null'){
+        window.location = '/';
+    }else{
+        const userName = document.querySelector('.user-name');
+        const contactName = document.querySelector('.contact-name');
+        const contactEmail = document.querySelector('.contact-email');
+        userName.textContent = loginStatus['name'];
+        contactName.value = loginStatus['name'];
+        contactEmail.value = loginStatus['email'];
     }
 }
 //start point
