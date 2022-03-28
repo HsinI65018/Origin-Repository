@@ -60,7 +60,7 @@ a{
 }
 
 /* section */
-section{
+.nav-form{
     transform: translateY(26px);
     display: flex;
     flex-direction: column;
@@ -134,7 +134,13 @@ section{
 .show{
     display: block;
 }
-
+.show-animation{
+    animation: 0.7s identifier;
+}
+@keyframes identifier {
+    0% {transform: translateY(-100%)}
+    100% {transform: translateY(0);}
+}
 /* footer */
 footer{
     display: flex;

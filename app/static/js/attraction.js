@@ -1,4 +1,4 @@
-import createDivElement from './createDivElement.js'
+import DivElement from './divElement.js'
 
 const main = document.querySelector('main');
 const imageContainer = document.querySelector('.img-container');
@@ -32,8 +32,8 @@ function renderImage(){
     const images = data['images'];
     for(let i = 0; i < images.length; i++){
         const img = document.createElement('img');
-        const spot = new createDivElement('','spot').create();
-        const innerSpot = new createDivElement().create();
+        const spot = new DivElement('','spot').create();
+        const innerSpot = new DivElement().create();
 
         img.src = images[i];
         img.setAttribute('id', i);
@@ -61,13 +61,13 @@ function render(){
     const address = data['address'];
     const transport = data['transport'];
 
-    const descContainer = new createDivElement(desc, 'desc').create();
-    const addressContainer = new createDivElement('','address-container').create();
-    const transportContainer = new createDivElement('','transport-container').create();
-    const addressTitle = new createDivElement('景點地址：','addressTitle').create();
-    const transportTitle = new createDivElement('交通方式：','transportTitle').create();
-    const addressContent = new createDivElement(address, 'addressContent').create();
-    const transportContent = new createDivElement(transport,'transportContent').create();
+    const descContainer = new DivElement(desc, 'desc').create();
+    const addressContainer = new DivElement('','address-container').create();
+    const transportContainer = new DivElement('','transport-container').create();
+    const addressTitle = new DivElement('景點地址：','addressTitle').create();
+    const transportTitle = new DivElement('交通方式：','transportTitle').create();
+    const addressContent = new DivElement(address, 'addressContent').create();
+    const transportContent = new DivElement(transport,'transportContent').create();
 
     titleContainer.textContent = data['name'];
     subtitleContainer.textContent = data['category'] + ' at ' + data['mrt'];
@@ -154,10 +154,10 @@ const amBtn = document.querySelector('#am');
 const pmBtn = document.querySelector('#pm');
 
 function changeAttribute(click, unClick, ticketPrice){
-    const priceTag = document.querySelector('#price');
+    const price = document.querySelector('.show-price');
     click.setAttribute('class', 'inner-radio-btn');
     unClick.removeAttribute('class', 'inner-radio-btn');
-    priceTag.textContent = `新台幣 ${ticketPrice} 元`;
+    price.textContent = ticketPrice
 }
 
 function changePrice(e){
