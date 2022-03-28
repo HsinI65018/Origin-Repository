@@ -161,6 +161,9 @@ main>form>.confirm-container{
     header>div:first-child{
         width: 90%;
     }
+    .no-booking{
+        width: 90%;
+    }
     header>.booking-info{
         width: 90%;
         height: 100%;
