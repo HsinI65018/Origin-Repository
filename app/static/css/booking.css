@@ -57,13 +57,12 @@ header>.booking-info{
 .flex-container>.info-title{
     font-weight: 700;
 }
-
-hr{
+.hr{
     max-width: 1200px;
-    border: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
     margin: auto;
     margin-bottom: 40px;
-}    
+}
 main{
     max-width: 1200px;
     margin: auto;
@@ -121,9 +120,9 @@ form>.confirm-container{
     width: 980px;
     height: 100px;
 }
-main>form>hr{
+main>form>.hr{
     width: 100%;
-    border: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
 }
 main>form>.confirm-container{
     display: flex;
