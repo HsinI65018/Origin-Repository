@@ -1,10 +1,36 @@
 //check login status
 const member = document.querySelector('.member');
+let loginStatus;
+
+const showLogin = () => {
+    if(loginStatus === 'null'){
+        login.classList.add('show');
+        login.classList.add('show-animation');
+    }else{
+        window.location = '/booking';
+    }
+}
 const checkLoginStatus =  async() => {
     const response = await fetch('/api/user');
     const data = await response.json();
-    const status = data['data'];
-    status === 'null'? '' : member.textContent = '登出系統';
+    loginStatus = data['data'];
+    loginStatus === 'null'? '' : member.textContent = '登出系統';
+
+    const booking = document.querySelector('.booking');
+    booking.addEventListener('click', showLogin)
+
+    if(window.location.pathname === '/booking'){
+        if(loginStatus === 'null'){
+            window.location.replace('/');
+        }else{
+            const userName = document.querySelector('.user-name');
+            const contactName = document.querySelector('.contact-name');
+            const contactEmail = document.querySelector('.contact-email');
+            userName.textContent = loginStatus['name'];
+            contactName.value = loginStatus['name'];
+            contactEmail.value = loginStatus['email'];
+        }
+    }
 }
 //start point
 checkLoginStatus();
@@ -33,11 +59,12 @@ const login = document.querySelector('.login');
 const handleButton = async (e) => {
     clearForm();
     register.className.includes('show')? '':login.classList.add('show');
+    login.className.includes('show-animation')? '':login.classList.add('show-animation');
 
     if(e.target.textContent === '登出系統'){
         login.classList.remove('show');
         await fetch('/api/user', {method:"DELETE"});
-        window.location = window.location.href;
+        window.location.pathname === '/booking'? window.location = '/':window.location = window.location.href;
     }
 }
 member.addEventListener('click', handleButton);
@@ -51,6 +78,7 @@ const switchForm = (e) => {
     if(target === 'login-btn'){
         register.classList.remove('show');
         login.classList.add('show');
+        login.classList.remove('show-animation');
     }else{
         login.classList.remove('show');
         register.classList.add('show');
@@ -136,3 +164,35 @@ const fetchLoginAPI = async (e) => {
     }
 }
 loginForm.addEventListener('submit', fetchLoginAPI);
+
+//submit booking form
+if(window.location.pathname.includes('/attraction/')){
+    const orderForm = document.querySelector('.form-body');
+    const orderHandler = async (e) => {
+        const [path, id] = window.location.pathname.split('/attraction/');
+        const date = document.querySelector('input[type=date]').value;
+        const time = document.querySelector('.inner-radio-btn').id;
+        const price = document.querySelector('.show-price').textContent;
+        e.preventDefault();
+        if(loginStatus === 'null'){
+            login.classList.add('show');
+            login.classList.add('show-animation');
+        }else{
+            const response = await fetch('/api/booking',{
+                method: "POST",
+                body: JSON.stringify({
+                    "attractionId": Number(id),
+                    "date": date,
+                    "time": time,
+                    "price": Number(price)
+                }),
+                headers:{
+                    "Content-Type": "application/json"
+                }
+            });
+            const data = await response.json();
+            window.location = "/booking";
+        }
+    }
+    orderForm.addEventListener('submit', orderHandler)
+}

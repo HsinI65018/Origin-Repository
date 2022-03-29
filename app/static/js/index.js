@@ -1,4 +1,4 @@
-import createDivElement from './createDivElement.js'
+import DivElement from './divElement.js'
 
 const main = document.querySelector('main');
 const searchForm = document.querySelector('.searchForm');
@@ -23,7 +23,7 @@ function fetchApi(page, keyword){
         data = jsonData['data'];
         render(jsonData['nextPage'], keyword);
     }).catch((e) => {
-        const errorDiv = new createDivElement(`查無 '${keyword}' 的結果`,'errorDiv').create();
+        const errorDiv = new DivElement(`查無 '${keyword}' 的結果`,'errorDiv').create();
         main.appendChild(errorDiv);
     })
 }
@@ -57,13 +57,13 @@ function render(page, keyword){
         const image = data[i]['images'][0];
         const id = data[i]['id'];
 
-        const divContainer = new createDivElement('','divContainer').create();
-        const imgContainer = new createDivElement('','imageContainer').create();
-        const info = new createDivElement('','info').create();
-        const title = new createDivElement(name, 'title').create();
-        const subtitle = new createDivElement('','subtitle').create();
-        const subtitleMrt = new createDivElement(mrt,'subtitleMrt').create();
-        const subtitleCategory = new createDivElement(category,'subtitleCatrgory').create();
+        const divContainer = new DivElement('','divContainer').create();
+        const imgContainer = new DivElement('','imageContainer').create();
+        const info = new DivElement('','info').create();
+        const title = new DivElement(name, 'title').create();
+        const subtitle = new DivElement('','subtitle').create();
+        const subtitleMrt = new DivElement(mrt,'subtitleMrt').create();
+        const subtitleCategory = new DivElement(category,'subtitleCatrgory').create();
         const img = document.createElement('img');
         const link = document.createElement('a');
         

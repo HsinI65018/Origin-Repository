@@ -1,4 +1,4 @@
-class createDivElement{
+class DivElement{
     constructor(context, className){
         this.context = context;
         this.className = className;
@@ -11,4 +11,4 @@ class createDivElement{
     }
 }
 
-export default createDivElement;
+export default DivElement;
