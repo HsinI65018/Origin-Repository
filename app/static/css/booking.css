@@ -36,7 +36,6 @@ header>.booking-info{
 }
 .booking-info>.info-container{
     width: 700px;
-    /* height: 170px; */
     margin-left: 22px;
 }
 .info-container>div:first-child{
@@ -241,7 +240,7 @@ main>form>.confirm-container{
         width: 90%;
     }
     .info-container>div:first-child>.delete-icon{
-        transform: translateY(180px);
+        transform: translateY(185px);
     }
     hr{
         width: 90%;
