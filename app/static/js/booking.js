@@ -11,7 +11,7 @@ fetchBookingInfo();
 
 const defaultRender = () => {
     const main = document.querySelector('main');
-    const hr = document.querySelector('hr');
+    const hr = document.querySelector('.hr');
     const bookingInfo = document.querySelector('.booking-info');
     const noBooking = document.querySelector('.no-booking');
     const footer = document.querySelector('footer');
