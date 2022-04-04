@@ -12,7 +12,8 @@ def get_booking():
     email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
     if(token):
         try:
-            id = get_db("SELECT orderItem FROM booking JOIN member on email=%s", [email], 'one')['orderItem']
+            bookingItem = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')[-1]
+            id = bookingItem['bookingItem']
             attraction_data = get_db("SELECT name, address, images FROM attractions WHERE id=%s", [id], 'one')
             name = attraction_data['name']
             address = attraction_data['address']
@@ -20,7 +21,7 @@ def get_booking():
             attraction_data['images'] = ['https' + i for i in attraction_data['images']][1:]
             image = attraction_data['images'][0]
 
-            order_data = get_db("SELECT date, time, price, orderUser FROM booking WHERE orderItem=%s", [id], 'one')
+            order_data = get_db("SELECT date, time, price, bookingUser FROM booking WHERE bookingItem=%s", [id], 'one')
             date = order_data['date']
             time = order_data['time']
             price = order_data['price']
@@ -47,14 +48,6 @@ def create_booking():
     token = request.cookies.get('JWT')
     email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
     try:
-        item = get_db("SELECT orderItem FROM booking WHERE orderUser=%s", [email], 'all')
-        for i in item:
-            order_item = i['orderItem']
-            data = get_db("DELETE FROM booking WHERE orderItem=%s", [order_item], 'none')
-            break
-    except:
-        print('None')
-    try:
         if(token):
             request_body = request.get_json()
             id = request_body['attractionId']
@@ -62,7 +55,7 @@ def create_booking():
             time = request_body['time']
             price = request_body['price']
             email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
-            data = get_db("INSERT INTO booking (orderItem, date, time, price, orderUser)VALUES(%s, %s, %s, %s, %s)", [id, date, time, price, email], 'none')
+            data = get_db("INSERT INTO booking (bookingItem, date, time, price, bookingUser, paymentStatus)VALUES(%s, %s, %s, %s, %s, %s)", [id, date, time, price, email, 1], 'none')
             response = make_response({"ok": True}, 200)
         else:
             response = make_response({"error": True, "message": "Please login in"}, 403)    
@@ -74,10 +67,13 @@ def create_booking():
 def delete_booking():
     token = request.cookies.get('JWT')
     email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
-    id = get_db("SELECT orderItem FROM booking JOIN member on email=%s", [email], 'one')['orderItem']
+    data = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s", [email], 'all')
     if(token):
-        data = get_db("DELETE FROM booking WHERE orderItem=%s", [id], 'none')
-        response = make_response(data, 200)
+        for item in data:
+            print(item)
+            id = item['bookingItem']
+            delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s AND paymentStatus=1", [id], 'none')
+        response = make_response({"ok": True}, 200)
     else:
         response = make_response({"error": True, "message": "Please login in"}, 403)    
-    return response    
+    return response

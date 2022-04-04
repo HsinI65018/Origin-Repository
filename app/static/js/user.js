@@ -4,8 +4,10 @@ let loginStatus;
 
 const showLogin = () => {
     if(loginStatus === 'null'){
-        login.classList.add('show');
-        login.classList.add('show-animation');
+        // login.classList.add('show');
+        // login.classList.add('show-animation');
+        register.className.includes('show')? '':login.classList.add('show');
+        login.className.includes('show-animation')? '':login.classList.add('show-animation');
     }else{
         window.location = '/booking';
     }
@@ -29,6 +31,14 @@ const checkLoginStatus =  async() => {
             userName.textContent = loginStatus['name'];
             contactName.value = loginStatus['name'];
             contactEmail.value = loginStatus['email'];
+        }
+    }
+    if(window.location.pathname === '/thankyou'){
+        if(loginStatus === 'null'){
+            window.location.replace('/');
+        }else{
+            const userName = document.querySelector('.user-name');
+            userName.textContent = loginStatus['name'];
         }
     }
 }
@@ -97,7 +107,7 @@ const closeForm = (e) => {
 loginClose.addEventListener('click', closeForm);
 registerClose.addEventListener('click', closeForm);
 
-//refister controller
+//register controller
 const registerForm = document.querySelector('.register-form');
 const fetchRegisterAPI = async (e) => {
     e.preventDefault();
@@ -175,8 +185,8 @@ if(window.location.pathname.includes('/attraction/')){
         const price = document.querySelector('.show-price').textContent;
         e.preventDefault();
         if(loginStatus === 'null'){
-            login.classList.add('show');
-            login.classList.add('show-animation');
+            register.className.includes('show')? '':login.classList.add('show');
+            login.className.includes('show-animation')? '':login.classList.add('show-animation');
         }else{
             const response = await fetch('/api/booking',{
                 method: "POST",

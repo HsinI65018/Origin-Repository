@@ -36,7 +36,7 @@
             </div>
             <div class="input-container">
                 <label for="phone">手機號碼：</label>
-                <input type="tel" name="phone" required>
+                <input type="tel" name="phone" class="contact-phone" maxlength="10" onkeypress="return isNumberKey(event)" required>
             </div>
             <div class="notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
         </div>
@@ -45,23 +45,33 @@
             <div class="title">信用卡付款資訊</div>
             <div class="input-container">
                 <label for="credit-number">卡片號碼：</label>
-                <input type="tel" name="credit-number" inputmode="numeric" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="**** **** **** ****" required>
+                <div class="tpfield card-number" id="card-number"></div>
             </div>
             <div class="input-container">
                 <label for="expiry-date">過期時間：</label>
-                <input type="month" name="expiry-date" required>
+                <div class="tpfield card-expiration-date" id="card-expiration-date"></div>
             </div>
             <div class="input-container">
                 <label for="security-code">驗證密碼：</label>
-                <input type="password" name="security-code" placeholder="CVV" required>
+                <div class="tpfield card-ccv" id="card-ccv"></div>
             </div>
         </div>
         <div class="hr"></div>
         <div class="confirm-container">
-            <div>總價：新台幣 2000 元</div>
-            <button type="submit">確認訂購並付款</button>
+            <div class="totalPrice"></div>
+            <button type="submit" class="submit-button">確認訂購並付款</button>
         </div>
     </form>
 </main>
 <script src="/static/js/booking.js" type="module"></script>
+<script src="https://js.tappaysdk.com/tpdirect/v5.9.0"></script>
+<script src="/static/js/order.js" type="module"></script>
+<script>
+    function isNumberKey(evt){
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>
 {% endblock %}

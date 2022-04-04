@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/thankyou.css">
+{% endblock %}
+{% block header %}
+<header>
+    <div><span class="user-name"></span>，您的付款明細如下：</div>
+    <section class="booking-info">
+        <!-- <a class="title-container"></a> -->
+        <div class="img-container"></div>
+        <div class="info-container">
+            <div>
+                <a class="title-container"></a>
+                <!-- <img src="/static/img/icon_delete.png" class="delete-icon"> -->
+            </div>
+            <div class="date-container flex-container"></div>
+            <div class="time-container flex-container"></div>
+            <div class="price-container flex-container"></div>
+            <div class="address-container flex-container"></div>
+        </div>
+    </section>
+</header>
+<div class="hr"></div>
+{% endblock %}
+{% block main %}
+<main>
+    <div class="number-container  flex-container"></div>
+    <div class="name-container  flex-container"></div>
+    <div class="email-container  flex-container"></div>
+    <div class="phone-container  flex-container"></div>
+    <div class="btn">
+        <a href="/">回首頁</a>
+    </div>
+</main>
+<script src="/static/js/thankyou.js" type="module"></script>
+{% endblock %}

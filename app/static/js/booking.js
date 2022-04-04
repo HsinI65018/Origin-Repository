@@ -4,7 +4,9 @@ let attractionData;
 const fetchBookingInfo = async() => {
     const response = await fetch('/api/booking');
     const data = await response.json();
+    const [csrftoken, paymentStatus] = document.cookie.split('payment_status=');
     attractionData = data['data'];
+    // if(paymentStatus === 'True') defaultRender();
     attractionData === 'null'? defaultRender():attractionRender();
 }
 fetchBookingInfo();
@@ -15,9 +17,10 @@ const defaultRender = () => {
     const bookingInfo = document.querySelector('.booking-info');
     const noBooking = document.querySelector('.no-booking');
     const footer = document.querySelector('footer');
+    
+    bookingInfo? bookingInfo.remove():'';
     main.setAttribute('class', 'hide');
     hr.setAttribute('class', 'hide');
-    bookingInfo.setAttribute('class', 'hide');
     noBooking.classList.remove('hide');
     footer.setAttribute('class', 'pop-up');
 }
@@ -28,6 +31,7 @@ const attractionRender = () => {
     const timeContainer = document.querySelector('.time-container');
     const priceContainer = document.querySelector('.price-container');
     const addressContainer = document.querySelector('.address-container');
+    const totalPrice = document.querySelector('.totalPrice');
     const image = document.createElement('img');
 
     const img = attractionData['attraction']['image'];
@@ -42,6 +46,7 @@ const attractionRender = () => {
     titleContainer.href = `/attraction/${attractionData['attraction']['id']}`;
     let timeRange;
     time === 'morning'? timeRange='早上 9 點到下午 2 點': timeRange='下午 2 點到晚上 9 點';
+    totalPrice.textContent = `總價：新台幣 ${price} 元`
 
     const dateTitle = new DivElement('日期：', 'info-title').create();
     const timeTitle = new DivElement('時間：', 'info-title').create();
@@ -50,7 +55,7 @@ const attractionRender = () => {
 
     const dateContent = new DivElement(date, '').create();
     const timeContent = new DivElement(timeRange, '').create();
-    const priceContent = new DivElement('新台幣 '+price+' 元', '').create();
+    const priceContent = new DivElement('新台幣 '+price+' 元', 'price').create();
     const addressContent = new DivElement(address, '').create();
 
     imageContainer.appendChild(image);
@@ -74,4 +79,67 @@ const deleteBooking = async () => {
     const data = await response.json();
     window.location = '/booking';
 }
-deleteBtn.addEventListener('click', deleteBooking)
+deleteBtn.addEventListener('click', deleteBooking);
+
+
+const paymentForm = document.querySelector('main>form');
+const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // 取得 TapPay Fields 的 status
+    const tappayStatus = TPDirect.card.getTappayFieldsStatus();
+
+    // 確認是否可以 getPrime
+    if (tappayStatus.canGetPrime === false) {
+        console.log('can not get prime');
+        return
+    }
+
+    // Get prime
+    TPDirect.card.getPrime((result) => {
+        console.log(result)
+        if (result.status !== 0) {
+            console.log('get prime error ' + result.msg);
+            return
+        }
+        console.log('get prime 成功，prime: ' + result.card.prime);
+        const contactName = document.querySelector('.contact-name').value;
+        const contactEmail = document.querySelector('.contact-email').value;
+        const contactPhone = document.querySelector('.contact-phone').value;
+        let requestBody = {
+            "prime": result.card.prime,
+            "order":{
+                "price": attractionData['price'],
+                "trip": {
+                    "attraction": {
+                        "id": attractionData['attraction']['id'],
+                        "name": attractionData['attraction']['name'],
+                        "address": attractionData['attraction']['address'],
+                        "image": attractionData['attraction']['image']
+                    },
+                    "date": attractionData['date'],
+                    "time": attractionData['time']
+                },
+                "contact": {
+                    "name": contactName,
+                    "email": contactEmail,
+                    "phone": contactPhone
+                }
+            }
+        }
+        fetch('/api/orders', {
+            method: "POST",
+            body: JSON.stringify(requestBody),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(data);
+            let orderNumber = data['data']['number'];
+            window.location = `/thankyou?number=${orderNumber}`;
+        })
+    })
+}
+paymentForm.addEventListener('submit', handleSubmit);
