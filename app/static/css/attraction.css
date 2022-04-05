@@ -302,9 +302,6 @@ main>.transport-container>:first-child{
     .form-container>form>.radio{
         width: 100%;
     }
-    .radio>label{
-        margin-right: 40px;
-    }
     .form-container>form>.price{
         width: 90%; 
     }
