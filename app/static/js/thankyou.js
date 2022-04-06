@@ -67,6 +67,13 @@ const renderOrder = () => {
     const emailContainer = document.querySelector('.email-container');
     const phoneContainer = document.querySelector('.phone-container');
 
+    const button = document.querySelector('.btn>a');
+    const [domain, path] = document.referrer.split(':3000/')
+    if(path === 'member'){
+        button.textContent='回會員專區';
+        button.href = '/member';
+    }
+
     const number = orderInfo['number'];
     const name = orderInfo['contact']['name'];
     const email = orderInfo['contact']['email'];

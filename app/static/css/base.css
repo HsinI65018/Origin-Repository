@@ -32,7 +32,7 @@ nav{
     text-align: center;
 }
 .btnContainer{
-    width: 175px;
+    /* width: 250px; */
     height: 34px;
     display: flex;
     align-items: center;
@@ -54,6 +54,25 @@ nav{
     width: 91px;
     height: 34px;
     cursor: pointer;
+}
+.user-icon{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #448899;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.user-icon>a{
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.user-icon:hover{
+   opacity: 0.7;
 }
 a{
     text-decoration: none;

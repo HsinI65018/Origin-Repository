@@ -2,14 +2,13 @@ from flask import *
 from app import app
 from datetime import datetime
 from app.model.utility import get_db
-import jwt
-import requests
+import jwt, math, requests
 
 order_blueprint = Blueprint("order", __name__)
 jwt_secret_key = app.config['JWT_SECRET_KEY']
 
 @order_blueprint.route('/api/orders', methods=['POST'])
-def order():
+def create_order():
     token = request.cookies.get("JWT")
     email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
     if (token):
@@ -49,11 +48,10 @@ def order():
                         "message": response_content["msg"]
                     }
                 }
-                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price']], 'none')
+                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
                 update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
                 undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
                 for item in undelete_items:
-                    print(item)
                     id = item['bookingItem']
                     delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s AND paymentStatus=1", [id], 'none')
                 response = make_response({"data": response_data}, 200)
@@ -68,7 +66,7 @@ def order():
     return response
 
 @order_blueprint.route('/api/orders/<int:orderNumber>', methods=['GET'])
-def get_order(orderNumber):
+def get_single_order(orderNumber):
     token = request.cookies.get("JWT")
     if(token):
         order_data = get_db("SELECT orderId, paymentStatus, date, time ,price, orderName, orderEmail, orderPhone, orderItem FROM orders WHERE orderId=%s", [orderNumber], 'one')
@@ -98,4 +96,26 @@ def get_order(orderNumber):
         response = make_response({"data": data}, 200)
     else:
         response = make_response({"error": True, "message": "Please login in"}, 403)
+    return response
+
+@order_blueprint.route('/api/orders', methods=['GET'])
+def get_orders():
+    token = request.cookies.get("JWT")
+    email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
+    page = int(request.args.get('page', 0))
+    count = get_db("SELECT COUNT(orderId) FROM orders WHERE orderUser=%s", [email], 'one')['COUNT(orderId)']
+    if(count % 4 == 0):
+        maxPage = math.floor(count / 4) - 1
+    else:
+        maxPage = math.floor(count / 4)
+
+    page_range = page * 4
+    data = get_db("SELECT orderId, attraction, price FROM orders WHERE orderUser=%s LIMIT %s OFFSET %s", [email, 4, page_range], 'all')
+    if(maxPage == page):
+        response = make_response({"data": data, "nextPage": "NULL"}, 200)
+    elif(maxPage > page):
+        response = make_response({"data": data, "nextPage": page+1}, 200)
+    else:
+        data = 'null'
+        response = make_response({"error": True, "nextPage": "The end of the page"}, 400)
     return response

@@ -1,6 +1,8 @@
 //check login status
 const booking = document.querySelector('.booking');
 const member = document.querySelector('.member');
+const userIcon = document.querySelector('.btnContainer>.user-icon');
+const userCapitalName = document.querySelector('.btnContainer>.user-icon>a');
 let loginStatus;
 
 const showLogin = () => {
@@ -17,7 +19,15 @@ const checkLoginStatus =  async() => {
     const data = await response.json();
     loginStatus = data['data'];
     booking.classList.remove('hide');
-    loginStatus === 'null'? member.textContent = '登入/註冊' : member.textContent = '登出系統';
+    // loginStatus === 'null'? member.textContent = '登入/註冊': member.textContent = '登出系統';
+    if(loginStatus === 'null'){
+        member.textContent = '登入/註冊';
+    }else{
+        member.textContent = '登出系統';
+        userIcon.classList.remove('hide');
+        userCapitalName.textContent = loginStatus['email'][0];
+        userCapitalName.href = '/member';
+    }
 
     booking.addEventListener('click', showLogin)
 
@@ -43,6 +53,22 @@ const checkLoginStatus =  async() => {
         }else{
             const userName = document.querySelector('.user-name');
             userName.textContent = loginStatus['name'];
+        }
+    }
+    if(window.location.pathname === '/member'){
+        if(loginStatus === 'null'){
+            window.location.replace('/');
+        }else{
+            const imageContainer = document.querySelector('.hide-photo');
+            const capitalName = document.querySelector('.capital-name');
+            const userInfoContainer = document.querySelector('.user-info');
+            const userName = document.querySelector('.name-container>div>.user-name');
+            const userEmail = document.querySelector('.email-container>div>.user-email');
+            imageContainer.classList.add('user-photo');
+            userInfoContainer.classList.remove('hide');
+            capitalName.textContent = loginStatus['name'][0];
+            userName.textContent = loginStatus['name'];
+            userEmail.textContent = loginStatus['email'];
         }
     }
 }
