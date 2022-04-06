@@ -28,6 +28,10 @@ const checkLoginStatus =  async() => {
             const userName = document.querySelector('.user-name');
             const contactName = document.querySelector('.contact-name');
             const contactEmail = document.querySelector('.contact-email');
+            const greeting = document.querySelector('.greeting');
+            const noBooking = document.querySelector('.no-booking');
+            greeting.classList.remove('hide');
+            noBooking.classList.remove('hide');
             userName.textContent = loginStatus['name'];
             contactName.value = loginStatus['name'];
             contactEmail.value = loginStatus['email'];
@@ -43,10 +47,7 @@ const checkLoginStatus =  async() => {
     }
 }
 //start point
-setTimeout(() => {
-    checkLoginStatus()
-},2000)
-// checkLoginStatus();
+checkLoginStatus();
 
 //clear login/register input field
 const registerName = document.querySelector('.register-form>input[type=text]');

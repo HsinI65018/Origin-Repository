@@ -15,13 +15,13 @@ const defaultRender = () => {
     const main = document.querySelector('main');
     const hr = document.querySelector('.hr');
     const bookingInfo = document.querySelector('.booking-info');
-    const noBooking = document.querySelector('.no-booking');
+    // const noBooking = document.querySelector('.no-booking');
     const footer = document.querySelector('footer');
     
     bookingInfo? bookingInfo.remove():'';
     main.classList.add('hide');
     hr.classList.add('hide');
-    noBooking.classList.remove('hide');
+    // noBooking.classList.remove('hide');
     footer.classList.add('pop-up');
 }
 const attractionRender = () => {
@@ -33,6 +33,9 @@ const attractionRender = () => {
     const addressContainer = document.querySelector('.address-container');
     const totalPrice = document.querySelector('.totalPrice');
     const image = document.createElement('img');
+    const noBooking = document.querySelector('.no-booking');
+    noBooking.classList.add('hide');
+    
 
     const img = attractionData['attraction']['image'];
     const title = attractionData['attraction']['name'];
