@@ -155,7 +155,9 @@ footer>div{
     font-size: 16px;
     height: 24px;
 }
-
+.hide{
+    display: none;
+}
 @media(max-width: 1200px){
     nav>.navbarContainer{
         width: 90%;

@@ -1,24 +1,24 @@
 //check login status
+const booking = document.querySelector('.booking');
 const member = document.querySelector('.member');
 let loginStatus;
 
 const showLogin = () => {
     if(loginStatus === 'null'){
-        // login.classList.add('show');
-        // login.classList.add('show-animation');
         register.className.includes('show')? '':login.classList.add('show');
         login.className.includes('show-animation')? '':login.classList.add('show-animation');
     }else{
         window.location = '/booking';
     }
 }
+
 const checkLoginStatus =  async() => {
     const response = await fetch('/api/user');
     const data = await response.json();
     loginStatus = data['data'];
-    loginStatus === 'null'? '' : member.textContent = '登出系統';
+    booking.classList.remove('hide');
+    loginStatus === 'null'? member.textContent = '登入/註冊' : member.textContent = '登出系統';
 
-    const booking = document.querySelector('.booking');
     booking.addEventListener('click', showLogin)
 
     if(window.location.pathname === '/booking'){
@@ -43,7 +43,10 @@ const checkLoginStatus =  async() => {
     }
 }
 //start point
-checkLoginStatus();
+setTimeout(() => {
+    checkLoginStatus()
+},2000)
+// checkLoginStatus();
 
 //clear login/register input field
 const registerName = document.querySelector('.register-form>input[type=text]');

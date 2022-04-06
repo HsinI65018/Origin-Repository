@@ -249,7 +249,9 @@ main>.transport-container{
 main>.transport-container>:first-child{
     font-weight: 700;
 }
-
+.hide{
+    display: none;
+}
 @media(max-width: 1200px){
     header>section{
         width: 95%;

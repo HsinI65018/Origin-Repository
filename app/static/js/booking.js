@@ -1,12 +1,12 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js'
 let attractionData;
 
 const fetchBookingInfo = async() => {
     const response = await fetch('/api/booking');
     const data = await response.json();
-    const [csrftoken, paymentStatus] = document.cookie.split('payment_status=');
     attractionData = data['data'];
-    // if(paymentStatus === 'True') defaultRender();
+    removeLoadingStatus();
     attractionData === 'null'? defaultRender():attractionRender();
 }
 fetchBookingInfo();
@@ -19,10 +19,10 @@ const defaultRender = () => {
     const footer = document.querySelector('footer');
     
     bookingInfo? bookingInfo.remove():'';
-    main.setAttribute('class', 'hide');
-    hr.setAttribute('class', 'hide');
+    main.classList.add('hide');
+    hr.classList.add('hide');
     noBooking.classList.remove('hide');
-    footer.setAttribute('class', 'pop-up');
+    footer.classList.add('pop-up');
 }
 const attractionRender = () => {
     const imageContainer = document.querySelector('.img-container');
@@ -53,10 +53,10 @@ const attractionRender = () => {
     const priceTitle = new DivElement('費用：', 'info-title').create();
     const addressTitle = new DivElement('地點：', 'info-title').create();
 
-    const dateContent = new DivElement(date, '').create();
-    const timeContent = new DivElement(timeRange, '').create();
+    const dateContent = new DivElement(date, 'date').create();
+    const timeContent = new DivElement(timeRange, 'time').create();
     const priceContent = new DivElement('新台幣 '+price+' 元', 'price').create();
-    const addressContent = new DivElement(address, '').create();
+    const addressContent = new DivElement(address, 'address').create();
 
     imageContainer.appendChild(image);
 

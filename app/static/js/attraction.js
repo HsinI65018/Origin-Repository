@@ -1,4 +1,5 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js';
 
 const main = document.querySelector('main');
 const imageContainer = document.querySelector('.img-container');
@@ -21,6 +22,7 @@ function fetchAPI(id){
         }
     }).then((jsonData) => {
         data = jsonData['data'];
+        removeLoadingStatus();
         render();
     }).catch((e) => {
         console.log(e);

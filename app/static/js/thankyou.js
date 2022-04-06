@@ -1,4 +1,5 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js'
 let orderInfo;
 
 const fetchOrderInfo = async () => {
@@ -7,6 +8,7 @@ const fetchOrderInfo = async () => {
     const response = await fetch(`/api/orders/${orderNumber}`);
     const data = await response.json();
     orderInfo = data['data'];
+    removeLoadingStatus();
     renderAttraction();
     renderOrder();
 };
