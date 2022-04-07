@@ -10,16 +10,17 @@ jwt_secret_key = app.config['JWT_SECRET_KEY']
 @order_blueprint.route('/api/orders', methods=['POST'])
 def create_order():
     token = request.cookies.get("JWT")
-    email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
     if (token):
         try:
             data = request.get_json()
+            email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
             url = 'https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime'
             time = datetime.now()
             order_number = time.strftime("%Y%m%d%H%M%S")
-            contact = data['order']['contact']
-            booking = data['order']['trip']
-            attraction = data['order']['trip']['attraction']
+            order = data['order']
+            contact = order['contact']
+            booking = order['trip']
+            attraction = order['trip']['attraction']
             request_data = {
                 "prime": data['prime'],
                 "partner_key": "partner_zCbbaqaW49kZf9Gj1coC0hAWc22kkIBwXvofplwuIDBzJhjWVwate7Ui",
@@ -51,8 +52,7 @@ def create_order():
                         "message": response_content["msg"]
                     }
                 }
-                value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
-                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
+                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, 0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
                 update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
                 # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
                 # if(undelete_items != []):
