@@ -40,25 +40,25 @@ def create_order():
             }
             response = requests.post(url, data=json.dumps(request_data), headers=headers)
             response_content = json.loads(response.content)
-            
-            if(response_content["status"] == 0):
-                response_data = {
-                    "number": response_content["order_number"],
-                    "payment": {
-                        "status": response_content["status"],
-                        "message": response_content["msg"]
-                    }
-                }
-                # value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
-                # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
-                # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
-                # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
-                # if(undelete_items != []):
-                #     for item in undelete_items:
-                #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
-                response = make_response({"data": response_data}, 200)
-            else:
-                response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
+            response = make_response({"data": response_content}, 200)
+            # if(response_content["status"] == 0):
+            #     response_data = {
+            #         "number": response_content["order_number"],
+            #         "payment": {
+            #             "status": response_content["status"],
+            #             "message": response_content["msg"]
+            #         }
+            #     }
+            #     # value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
+            #     # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
+            #     # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
+            #     # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
+            #     # if(undelete_items != []):
+            #     #     for item in undelete_items:
+            #     #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
+            #     response = make_response({"data": response_data}, 200)
+            # else:
+            #     response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
         except:
             response = make_response({"error":True, "message":"Error message from server"}, 500)
     else:
