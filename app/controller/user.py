@@ -4,6 +4,7 @@ from app.model.user_db import User_db
 from app.view.user_view import User_view
 from werkzeug.security import generate_password_hash
 import jwt
+from app.model.utility import get_db
 
 user_blueprint = Blueprint("user", __name__)
 jwt_secret_key = app.config['JWT_SECRET_KEY']
@@ -44,4 +45,17 @@ def login():
 def logout():
     response = User_view.logout()
     response.delete_cookie("JWT")
+    return response
+
+@user_blueprint.route('/api/user', methods=['PUT'])
+def update_password():
+    token = request.cookies.get('JWT')
+    get_password = request.get_json()['password']
+    new_password = generate_password_hash(get_password)
+    if(token):
+        email = jwt.decode(token, jwt_secret_key, algorithms=['HS256'])['email']
+        data = get_db("UPDATE member SET password=%s WHERE email=%s", [new_password, email], 'none')
+        response = make_response({"ok": True}, 200)
+    else:
+        response = make_response({"error": True, "message": "please login in"}, 403)
     return response

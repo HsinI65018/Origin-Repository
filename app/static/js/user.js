@@ -1,8 +1,8 @@
 //check login status
 const booking = document.querySelector('.booking');
 const member = document.querySelector('.member');
-const userIcon = document.querySelector('.btnContainer>.user-icon');
-const userCapitalName = document.querySelector('.btnContainer>.user-icon>a');
+const userIcon = document.querySelector('.user-icon');
+const userCapitalName = document.querySelector('.user-icon>.capital');
 let loginStatus;
 
 const showLogin = () => {
@@ -26,7 +26,7 @@ const checkLoginStatus =  async() => {
         member.textContent = '登出系統';
         userIcon.classList.remove('hide');
         userCapitalName.textContent = loginStatus['email'][0];
-        userCapitalName.href = '/member';
+        userIcon.href = '/member';
     }
 
     booking.addEventListener('click', showLogin)

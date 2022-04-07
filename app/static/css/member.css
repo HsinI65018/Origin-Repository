@@ -62,11 +62,40 @@ header>.user-info-container{
 .password-container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .password-container>img{
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
+    margin-left: 20px;
+}
+.save-btn{
+    width: 26px;
+    height: 26px;
+    border: none;
+    background: none;
+}
+.save-btn>img{
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+}    
+.edit-field{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.edit-field>form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.edit-field>form>input{
+    width: 200px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
 }
 .hr{
     max-width: 900px;
@@ -81,6 +110,7 @@ main{
 }
 main>.icon-container{
     width: 900px;
+    height: 36px;
     display: flex;
     justify-content: space-between;
     margin: auto;
@@ -92,6 +122,7 @@ main>.icon-container{
 main>.order-list-container{
     width: 700px;
     margin: auto;
+    margin-bottom: 60px;
 }
 .order-list-container>.title{
     font-size: 19px;
@@ -116,19 +147,16 @@ main>.btn{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 40px;
-}
-main>.btn>a{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
+    cursor: pointer;
     width: 173px;
     height: 36px;
     background: #448899;
     border-radius: 5px;
     border: none;
-    margin: auto 0;
+    margin: auto;
+}
+main>.btn>a{
+    color: #FFFFFF;
     cursor: pointer;
 }
 .hide{
@@ -137,7 +165,9 @@ main>.btn>a{
 .hide-photo{
     background-color: white;
 }
-
+/* .order-container>.order>a>.number:hover{
+    box-shadow: 0 0 7px #448899, 0 0 5px #03e9f4;
+} */
 @media(max-width: 1000px){
     header>.user-info-container{
         max-width: 90%;
@@ -153,6 +183,9 @@ main>.btn>a{
     }
 }
 @media(max-width: 600px){
+    .navbarTitle>a{
+        font-size: 25px;
+    }
     header>.user-info-container{
         height: auto;
         flex-direction: column;
@@ -173,11 +206,11 @@ main>.btn>a{
     .order-container{
         min-height: 300px;
     }
-    .order>.name{
+    .order>a>.name{
         max-width: 90%;
         padding-left: 20px;
         padding-right: 20px;
-        margin-right: 0;
+        margin-right: 0px;
     }
     main>.icon-container{
        /* opacity: 0.5; */

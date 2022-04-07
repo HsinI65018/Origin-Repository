@@ -84,6 +84,7 @@ deleteBtn.addEventListener('click', deleteBooking);
 
 
 const paymentForm = document.querySelector('main>form');
+const errorForm = document.querySelector('.error-form');
 const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -98,12 +99,12 @@ const handleSubmit = (e) => {
 
     // Get prime
     TPDirect.card.getPrime((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.status !== 0) {
             console.log('get prime error ' + result.msg);
             return
         }
-        console.log('get prime 成功，prime: ' + result.card.prime);
+        // console.log('get prime 成功，prime: ' + result.card.prime);
         const contactName = document.querySelector('.contact-name').value;
         const contactEmail = document.querySelector('.contact-email').value;
         const contactPhone = document.querySelector('.contact-phone').value;
@@ -137,10 +138,22 @@ const handleSubmit = (e) => {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
-            let orderNumber = data['data']['number'];
-            window.location = `/thankyou?number=${orderNumber}`;
+            if(data['error']){
+                errorForm.classList.remove('hide');
+                errorForm.classList.add('show-animation');
+            }else{
+                let orderNumber = data['data']['number'];
+                window.location = `/thankyou?number=${orderNumber}`;
+            }
+        }).catch((e) => {
+            console.log(e)
         })
     })
 }
 paymentForm.addEventListener('submit', handleSubmit);
+
+
+const closeErrorForm = () => {
+    errorForm.classList.add('hide');
+}
+errorForm.addEventListener('click', closeErrorForm);

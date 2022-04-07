@@ -64,15 +64,16 @@ nav{
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin-left: 10px;
+    /* margin-left: 10px; */
 }
-.user-icon>a{
+.user-icon>div{
     color: white;
     font-weight: 700;
     text-transform: uppercase;
 }
 .user-icon:hover{
-   opacity: 0.7;
+   opacity: 0.9;
+   box-shadow: 0 0 7px #448899;
 }
 a{
     text-decoration: none;
@@ -98,6 +99,7 @@ a{
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-top: 15px solid #448899;
 }
 .user-container>.title-container{
     display: flex;
@@ -159,6 +161,32 @@ a{
 @keyframes identifier {
     0% {transform: translateY(-100%)}
     100% {transform: translateY(0);}
+}
+.error-form{
+    width: 300px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 60px #AAAAAA;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 25px solid #448899;
+    padding: 15px;
+}
+.error-form>.title{
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.error-form>button{
+    width: 200px;
+    height: 30px;
+    background: #448899;
+    border-radius: 5px;
+    margin: 15px 0px 15px 0px;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
 }
 /* footer */
 footer{

@@ -20,8 +20,17 @@
                     <div>帳號：<span class="user-email"></span></div>
                 </div>
                 <div class="password-container flex-container">
-                    <div>密碼：******</div>
-                    <img src="/static/img/pencil.png">
+                    <div class="save-field">密碼：********</div>
+                    <div class="edit-field hide">
+                        <div>密碼：</div>
+                        <form>
+                            <input type="text" placeholder="請輸入新密碼" class="new-password" required>
+                            <button type="submit" class="save-btn">
+                                <img src="/static/img/save.png" class="save-icon hide">
+                            </button>
+                        </form>
+                    </div>
+                    <img src="/static/img/pencil.png" class="edit-icon">
                 </div>
             </div>
         </div>
@@ -37,6 +46,7 @@
     </div>
     <div class="order-list-container">
         <div class="title">訂單明細：</div>
+        <div class="no-order hide">目前無訂單明細</div>
         <div class="order-container"></div>
     </div>
     <div class="btn">

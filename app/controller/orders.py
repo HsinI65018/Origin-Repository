@@ -14,9 +14,9 @@ def create_order():
     if (token):
         try:
             data = request.get_json()
-            payment_status = "False"
             url = 'https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime'
-            order_number = datetime.now().strftime("%Y%m%d%H%M%S")
+            time = datetime.now()
+            order_number = time.strftime("%Y%m%d%H%M%S")
             contact = data['order']['contact']
             booking = data['order']['trip']
             attraction = data['order']['trip']['attraction']
@@ -39,7 +39,8 @@ def create_order():
                 "x-api-key": "partner_zCbbaqaW49kZf9Gj1coC0hAWc22kkIBwXvofplwuIDBzJhjWVwate7Ui"
             }
             response = requests.post(url, data=json.dumps(request_data), headers=headers)
-            response_content = json.loads(response.content.decode('utf-8'))
+            response_content = json.loads(response.content)
+            
             if(response_content["status"] == 0):
                 response_data = {
                     "number": response_content["order_number"],
@@ -51,14 +52,13 @@ def create_order():
                 value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
                 order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
                 update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
-                undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
-                if(undelete_items != []):
-                    for item in undelete_items:
-                        delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
+                # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
+                # if(undelete_items != []):
+                #     for item in undelete_items:
+                #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
                 response = make_response({"data": response_data}, 200)
             else:
                 response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
-                response.set_cookie("payment_status", payment_status)
         except:
             response = make_response({"error":True, "message":"Error message from server"}, 500)
     else:
