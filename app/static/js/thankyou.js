@@ -7,6 +7,7 @@ const fetchOrderInfo = async () => {
     const [queryStringName, orderNumber] = queryString.split('=');
     const response = await fetch(`/api/orders/${orderNumber}`);
     const data = await response.json();
+    console.log(data)
     orderInfo = data['data'];
     removeLoadingStatus();
     renderAttraction();

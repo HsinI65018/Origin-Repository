@@ -52,20 +52,19 @@ def create_order():
                         "message": response_content["msg"]
                     }
                 }
-                print(type(attraction['image']))
                 order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser)VALUES(%s, %s, %s, %s, %s, %s, %s)", [order_number,0, contact['name'], contact['email'], contact['phone'], attraction['id'], email], 'none')
                 test = get_db("UPDATE orders SET date=%s, time=%s ,price=%s WHERE orderId=%s", [booking['date'], booking['time'], order['price'], order_number], 'none')
-                testname = get_db("UPDATE orders SET attraction=%s WHERE orderId=%s", [attraction['name'], order_number], 'none')
-                testaddress = get_db("UPDATE orders SET address=%s WHERE orderId=%s", [attraction['address'], order_number], 'none')
+                # testname = get_db("UPDATE orders SET attraction=%s WHERE orderId=%s", [attraction['name'], order_number], 'none')
+                # testaddress = get_db("UPDATE orders SET address=%s WHERE orderId=%s", [attraction['address'], order_number], 'none')
                 testimg = get_db("UPDATE orders SET image=%s WHERE orderId=%s", [attraction['image'], order_number], 'none')
                 # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, 0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
-                # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
-                # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
-                # if(undelete_items != []):
-                #     for item in undelete_items:
-                #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
-                response = make_response({"order": order_status, "test": test, "name": testname,"address": testaddress, "testimg": testimg}, 200)
-                # response = make_response({"data": order_status}, 200)
+                update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
+                undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
+                if(undelete_items != []):
+                    for item in undelete_items:
+                        delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
+                # response = make_response({"order": order_status, "test": test, "name": testname,"address": testaddress, "testimg": testimg}, 200)
+                response = make_response({"data": response_data}, 200)
             else:
                 response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
         except:
@@ -79,15 +78,17 @@ def create_order():
 def get_single_order(orderNumber):
     token = request.cookies.get("JWT")
     if(token):
-        order_data = get_db("SELECT orderId, paymentStatus, date, time ,price, orderName, orderEmail, orderPhone, orderItem, attraction, address, image FROM orders WHERE orderId=%s", [orderNumber], 'one')
+        order_data = get_db("SELECT orderId, paymentStatus, date, time ,price, orderName, orderEmail, orderPhone, orderItem, image FROM orders WHERE orderId=%s", [orderNumber], 'one')
+        id = order_data['orderItem']
+        attraction_data = get_db("SELECT name, address FROM attractions WHERE id=%s", [id], 'one')
         data = {
             "number": order_data['orderId'],
             "price": order_data['price'],
             "trip": {
                 "attraction": {
                     "id": order_data['orderItem'],
-                    "name": order_data['attraction'],
-                    "address": order_data['address'],
+                    "name": attraction_data['name'],
+                    "address": attraction_data['address'],
                     "image": order_data['image'],
                 },
                 "date": order_data['date'],
