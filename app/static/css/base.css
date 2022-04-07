@@ -59,7 +59,7 @@ nav{
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #448899;
+    background: #66AABB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -72,7 +72,7 @@ nav{
     text-transform: uppercase;
 }
 .user-icon:hover{
-   opacity: 0.9;
+   /* opacity: 0.9; */
    box-shadow: 0 0 7px #448899;
 }
 a{

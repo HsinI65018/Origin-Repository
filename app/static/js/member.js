@@ -49,7 +49,6 @@ const renderOrder = () => {
 const nextBtn = document.querySelector('.icon-container').children[1];
 const prevBtn = document.querySelector('.icon-container').children[0];
 const changeOrderPage = (e) => {
-    // console.log(e.target);
     const orderContainer = document.querySelector('.order-container');
     orderContainer.innerHTML = '';
     e.target.className === 'next'? page ++: page --;
