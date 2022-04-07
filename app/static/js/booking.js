@@ -1,12 +1,12 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js'
 let attractionData;
 
 const fetchBookingInfo = async() => {
     const response = await fetch('/api/booking');
     const data = await response.json();
-    const [csrftoken, paymentStatus] = document.cookie.split('payment_status=');
     attractionData = data['data'];
-    // if(paymentStatus === 'True') defaultRender();
+    removeLoadingStatus();
     attractionData === 'null'? defaultRender():attractionRender();
 }
 fetchBookingInfo();
@@ -15,14 +15,12 @@ const defaultRender = () => {
     const main = document.querySelector('main');
     const hr = document.querySelector('.hr');
     const bookingInfo = document.querySelector('.booking-info');
-    const noBooking = document.querySelector('.no-booking');
     const footer = document.querySelector('footer');
     
     bookingInfo? bookingInfo.remove():'';
-    main.setAttribute('class', 'hide');
-    hr.setAttribute('class', 'hide');
-    noBooking.classList.remove('hide');
-    footer.setAttribute('class', 'pop-up');
+    main.classList.add('hide');
+    hr.classList.add('hide');
+    footer.classList.add('pop-up');
 }
 const attractionRender = () => {
     const imageContainer = document.querySelector('.img-container');
@@ -33,6 +31,9 @@ const attractionRender = () => {
     const addressContainer = document.querySelector('.address-container');
     const totalPrice = document.querySelector('.totalPrice');
     const image = document.createElement('img');
+
+    const noBooking = document.querySelector('.no-booking');
+    noBooking.classList.add('hide');
 
     const img = attractionData['attraction']['image'];
     const title = attractionData['attraction']['name'];
@@ -53,10 +54,10 @@ const attractionRender = () => {
     const priceTitle = new DivElement('費用：', 'info-title').create();
     const addressTitle = new DivElement('地點：', 'info-title').create();
 
-    const dateContent = new DivElement(date, '').create();
-    const timeContent = new DivElement(timeRange, '').create();
+    const dateContent = new DivElement(date, 'date').create();
+    const timeContent = new DivElement(timeRange, 'time').create();
     const priceContent = new DivElement('新台幣 '+price+' 元', 'price').create();
-    const addressContent = new DivElement(address, '').create();
+    const addressContent = new DivElement(address, 'address').create();
 
     imageContainer.appendChild(image);
 
@@ -83,6 +84,7 @@ deleteBtn.addEventListener('click', deleteBooking);
 
 
 const paymentForm = document.querySelector('main>form');
+const errorForm = document.querySelector('.error-form');
 const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -97,12 +99,12 @@ const handleSubmit = (e) => {
 
     // Get prime
     TPDirect.card.getPrime((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.status !== 0) {
             console.log('get prime error ' + result.msg);
             return
         }
-        console.log('get prime 成功，prime: ' + result.card.prime);
+        // console.log('get prime 成功，prime: ' + result.card.prime);
         const contactName = document.querySelector('.contact-name').value;
         const contactEmail = document.querySelector('.contact-email').value;
         const contactPhone = document.querySelector('.contact-phone').value;
@@ -136,10 +138,23 @@ const handleSubmit = (e) => {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
-            let orderNumber = data['data']['number'];
-            window.location = `/thankyou?number=${orderNumber}`;
+            console.log(data)
+            if(data['error']){
+                errorForm.classList.remove('hide');
+                errorForm.classList.add('show-animation');
+            }else{
+                let orderNumber = data['data']['number'];
+                window.location = `/thankyou?number=${orderNumber}`;
+            }
+        }).catch((e) => {
+            console.log(e)
         })
     })
 }
 paymentForm.addEventListener('submit', handleSubmit);
+
+
+const closeErrorForm = () => {
+    errorForm.classList.add('hide');
+}
+errorForm.addEventListener('click', closeErrorForm);

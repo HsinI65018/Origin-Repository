@@ -1,24 +1,34 @@
 //check login status
+const booking = document.querySelector('.booking');
 const member = document.querySelector('.member');
+const userIcon = document.querySelector('.user-icon');
+const userCapitalName = document.querySelector('.user-icon>.capital');
 let loginStatus;
 
 const showLogin = () => {
     if(loginStatus === 'null'){
-        // login.classList.add('show');
-        // login.classList.add('show-animation');
         register.className.includes('show')? '':login.classList.add('show');
         login.className.includes('show-animation')? '':login.classList.add('show-animation');
     }else{
         window.location = '/booking';
     }
 }
+
 const checkLoginStatus =  async() => {
     const response = await fetch('/api/user');
     const data = await response.json();
     loginStatus = data['data'];
-    loginStatus === 'null'? '' : member.textContent = '登出系統';
+    booking.classList.remove('hide');
+    // loginStatus === 'null'? member.textContent = '登入/註冊': member.textContent = '登出系統';
+    if(loginStatus === 'null'){
+        member.textContent = '登入/註冊';
+    }else{
+        member.textContent = '登出系統';
+        userIcon.classList.remove('hide');
+        userCapitalName.textContent = loginStatus['email'][0];
+        userIcon.href = '/member';
+    }
 
-    const booking = document.querySelector('.booking');
     booking.addEventListener('click', showLogin)
 
     if(window.location.pathname === '/booking'){
@@ -28,6 +38,10 @@ const checkLoginStatus =  async() => {
             const userName = document.querySelector('.user-name');
             const contactName = document.querySelector('.contact-name');
             const contactEmail = document.querySelector('.contact-email');
+            const greeting = document.querySelector('.greeting');
+            const noBooking = document.querySelector('.no-booking');
+            greeting.classList.remove('hide');
+            noBooking.classList.remove('hide');
             userName.textContent = loginStatus['name'];
             contactName.value = loginStatus['name'];
             contactEmail.value = loginStatus['email'];
@@ -39,6 +53,22 @@ const checkLoginStatus =  async() => {
         }else{
             const userName = document.querySelector('.user-name');
             userName.textContent = loginStatus['name'];
+        }
+    }
+    if(window.location.pathname === '/member'){
+        if(loginStatus === 'null'){
+            window.location.replace('/');
+        }else{
+            const imageContainer = document.querySelector('.hide-photo');
+            const capitalName = document.querySelector('.capital-name');
+            const userInfoContainer = document.querySelector('.user-info');
+            const userName = document.querySelector('.name-container>div>.user-name');
+            const userEmail = document.querySelector('.email-container>div>.user-email');
+            imageContainer.classList.add('user-photo');
+            userInfoContainer.classList.remove('hide');
+            capitalName.textContent = loginStatus['name'][0];
+            userName.textContent = loginStatus['name'];
+            userEmail.textContent = loginStatus['email'];
         }
     }
 }

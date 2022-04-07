@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="/static/css/booking.css">
 {% endblock %}
 {% block header %}
-<header>
-    <div>您好，<span class="user-name"></span>，待預訂的行程如下：</div>
+<header class="hide">
+    <div class="greeting hide">您好，<span class="user-name"></span>，待預訂的行程如下：</div>
     <div class="no-booking hide">目前沒有任何待預訂的行程</div>
     <section class="booking-info">
         <div class="img-container"></div>
@@ -22,7 +22,7 @@
     </section>
 </header>
 <div class="hr"></div>
-<main>
+<main class="hide">
     <form>
         <div class="contact-container">
             <div class="title">您的聯絡資訊</div>
@@ -67,8 +67,8 @@
 <script src="https://js.tappaysdk.com/tpdirect/v5.9.0"></script>
 <script src="/static/js/order.js" type="module"></script>
 <script>
-    function isNumberKey(evt){
-        let charCode = (evt.which) ? evt.which : evt.keyCode;
+    function isNumberKey(e){
+        let charCode = (e.which) ? e.which : e.keyCode;
         if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
         return true;

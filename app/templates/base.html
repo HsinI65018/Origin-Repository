@@ -16,11 +16,14 @@
             </div>
             <div class="btnContainer">
                 <div class="btn2">
-                    <div class="booking">預定行程</div>
+                    <div class="booking hide">預定行程</div>
                 </div>
                 <div class="btn1">
-                    <div class="member">登入/註冊</div>
+                    <div class="member"></div>
                 </div>
+                <a class="user-icon hide">
+                    <div class="capital"></div>
+                </a>
             </div>
         </div>
         <section class="nav-form">
@@ -63,11 +66,16 @@
                     </div>
                 </div>
             </div>
+            <div class="form-container error-form hide">
+                <div class="title">付款失敗</div>
+                <div class="message">請重新確認付款資訊</div>
+                <button type="button" class="btn">確定</button>
+            </div>
         </section>
     </nav>
     {% block header %}{% endblock %}
     {% block main %}{% endblock %}
-    <footer>
+    <footer class="hide">
         <div>COPYRIGHT © 2021 台北一日遊</div>
     </footer>
     <script src="/static/js/user.js"></script>

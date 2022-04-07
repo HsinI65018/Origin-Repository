@@ -130,7 +130,9 @@ main>div>a>.info>.subtitle>div:last-child{
 main>.errorDiv{
     border: none;
 }
-
+main>div>a>.imageContainer:hover{
+    opacity: 0.7;
+}
 @media(max-width: 1200px){
     nav>.navbarContainer{
         width: 90%;

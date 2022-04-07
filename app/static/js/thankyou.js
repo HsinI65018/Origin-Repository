@@ -1,4 +1,5 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js'
 let orderInfo;
 
 const fetchOrderInfo = async () => {
@@ -6,7 +7,9 @@ const fetchOrderInfo = async () => {
     const [queryStringName, orderNumber] = queryString.split('=');
     const response = await fetch(`/api/orders/${orderNumber}`);
     const data = await response.json();
+    console.log(data)
     orderInfo = data['data'];
+    removeLoadingStatus();
     renderAttraction();
     renderOrder();
 };
@@ -64,6 +67,13 @@ const renderOrder = () => {
     const nameContainer = document.querySelector('.name-container');
     const emailContainer = document.querySelector('.email-container');
     const phoneContainer = document.querySelector('.phone-container');
+
+    const button = document.querySelector('.btn>a');
+    const [domain, path] = document.referrer.split(':3000/')
+    if(path === 'member'){
+        button.textContent='回會員專區';
+        button.href = '/member';
+    }
 
     const number = orderInfo['number'];
     const name = orderInfo['contact']['name'];

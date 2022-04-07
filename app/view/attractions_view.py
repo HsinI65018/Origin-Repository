@@ -21,7 +21,7 @@ class Attraction_view:
             elif (max_Page-page) == 0:
                 response = make_response({'nextPage':'NULL','data':data}, 200)
             else:
-                response = make_response({'nextPage':page+1,'data':data})
+                response = make_response({'nextPage':page+1,'data':data}, 200)
         except:
             response = make_response({'error':True,'message':'Error message from server'}, 500)
 

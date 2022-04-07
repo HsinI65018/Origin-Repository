@@ -1,4 +1,5 @@
 import DivElement from './divElement.js'
+import removeLoadingStatus from './loading.js'
 
 const main = document.querySelector('main');
 const searchForm = document.querySelector('.searchForm');
@@ -21,6 +22,7 @@ function fetchApi(page, keyword){
         }
     }).then((jsonData) => {
         data = jsonData['data'];
+        removeLoadingStatus()
         render(jsonData['nextPage'], keyword);
     }).catch((e) => {
         const errorDiv = new DivElement(`查無 '${keyword}' 的結果`,'errorDiv').create();

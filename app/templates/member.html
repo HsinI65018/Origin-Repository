@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/member.css">
+{% endblock %}
+{% block header %}
+<header class="hide">
+    <section class="user-info-container">
+        <div class="img-container">
+            <div class="hide-photo">
+                <div class="capital-name"></div>
+            </div>
+        </div>
+        <div class="info-container">
+            <div class="user-info hide">
+                <div class="name-container flex-container">
+                    <div>使用者名稱：<span class="user-name"></span></div>
+                </div>
+                <div class="email-container flex-container">
+                    <div>帳號：<span class="user-email"></span></div>
+                </div>
+                <div class="password-container flex-container">
+                    <div class="save-field">密碼：********</div>
+                    <div class="edit-field hide">
+                        <div>密碼：</div>
+                        <form>
+                            <input type="text" placeholder="請輸入新密碼" class="new-password" required>
+                            <button type="submit" class="save-btn">
+                                <img src="/static/img/save.png" class="save-icon hide">
+                            </button>
+                        </form>
+                    </div>
+                    <img src="/static/img/pencil.png" class="edit-icon">
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+<div class="hr"></div>
+{% endblock %}
+{% block main %}
+<main class="hide">
+    <div class="icon-container">
+        <img src="/static/img/btn_leftArrow.png" class="prev">
+        <img src="/static/img/btn_rightArrow.png" class="next">
+    </div>
+    <div class="order-list-container">
+        <div class="title">訂單明細：</div>
+        <div class="no-order hide">目前無訂單明細</div>
+        <div class="order-container"></div>
+    </div>
+    <div class="btn">
+        <a href="/">回首頁</a>
+    </div>
+</main>
+<script src="/static/js/member.js" type="module"></script>
+{% endblock %}

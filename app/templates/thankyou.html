@@ -4,15 +4,13 @@
 <link rel="stylesheet" href="/static/css/thankyou.css">
 {% endblock %}
 {% block header %}
-<header>
+<header class="hide">
     <div><span class="user-name"></span>，您的付款明細如下：</div>
     <section class="booking-info">
-        <!-- <a class="title-container"></a> -->
         <div class="img-container"></div>
         <div class="info-container">
             <div>
                 <a class="title-container"></a>
-                <!-- <img src="/static/img/icon_delete.png" class="delete-icon"> -->
             </div>
             <div class="date-container flex-container"></div>
             <div class="time-container flex-container"></div>
@@ -24,7 +22,7 @@
 <div class="hr"></div>
 {% endblock %}
 {% block main %}
-<main>
+<main class="hide">
     <div class="number-container  flex-container"></div>
     <div class="name-container  flex-container"></div>
     <div class="email-container  flex-container"></div>
