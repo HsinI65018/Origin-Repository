@@ -139,13 +139,13 @@ const handleSubmit = (e) => {
             return response.json();
         }).then((data) => {
             console.log(data)
-            // if(data['error']){
-            //     errorForm.classList.remove('hide');
-            //     errorForm.classList.add('show-animation');
-            // }else{
-            //     let orderNumber = data['data']['number'];
-            //     window.location = `/thankyou?number=${orderNumber}`;
-            // }
+            if(data['error']){
+                errorForm.classList.remove('hide');
+                errorForm.classList.add('show-animation');
+            }else{
+                let orderNumber = data['data']['number'];
+                window.location = `/thankyou?number=${orderNumber}`;
+            }
         }).catch((e) => {
             console.log(e)
         })

@@ -41,9 +41,6 @@ def create_order():
             }
             response = requests.post(url, data=json.dumps(request_data), headers=headers)
             response_content = json.loads(response.content)
-            # print(type(response_content))
-            # response = make_response({"data": response_content}, 200)
-            # print(response_content["status"] == 0)
             if(response_content["status"] == 0):
                 response_data = {
                     "number": response_content["order_number"],
@@ -53,17 +50,14 @@ def create_order():
                     }
                 }
                 order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser)VALUES(%s, %s, %s, %s, %s, %s, %s)", [order_number,0, contact['name'], contact['email'], contact['phone'], attraction['id'], email], 'none')
-                test = get_db("UPDATE orders SET date=%s, time=%s ,price=%s WHERE orderId=%s", [booking['date'], booking['time'], order['price'], order_number], 'none')
-                # testname = get_db("UPDATE orders SET attraction=%s WHERE orderId=%s", [attraction['name'], order_number], 'none')
-                # testaddress = get_db("UPDATE orders SET address=%s WHERE orderId=%s", [attraction['address'], order_number], 'none')
-                testimg = get_db("UPDATE orders SET image=%s WHERE orderId=%s", [attraction['image'], order_number], 'none')
-                # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, 0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
+                booking_status = get_db("UPDATE orders SET date=%s, time=%s ,price=%s WHERE orderId=%s", [booking['date'], booking['time'], order['price'], order_number], 'none')
+                attraction_status = get_db("UPDATE orders SET image=%s WHERE orderId=%s", [attraction['image'], order_number], 'none')
                 update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
+
                 undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
                 if(undelete_items != []):
                     for item in undelete_items:
                         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
-                # response = make_response({"order": order_status, "test": test, "name": testname,"address": testaddress, "testimg": testimg}, 200)
                 response = make_response({"data": response_data}, 200)
             else:
                 response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
@@ -118,7 +112,7 @@ def get_orders():
         maxPage = math.floor(count / 4)
 
     page_range = page * 4
-    data = get_db("SELECT orderId, attraction, price FROM orders WHERE orderUser=%s LIMIT %s OFFSET %s", [email, 4, page_range], 'all')
+    data = get_db("SELECT orderId, price, orderItem, name FROM orders JOIN attractions ON orderUser=%s LIMIT %s OFFSET %s", [email, 4, page_range], 'all')
     if(maxPage == page):
         response = make_response({"data": data, "nextPage": "NULL"}, 200)
     elif(maxPage > page):

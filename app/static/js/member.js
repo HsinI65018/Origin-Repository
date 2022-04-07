@@ -26,14 +26,13 @@ const fetchOrder = async () => {
 fetchOrder();
 
 const renderOrder = () => {
-    // console.log(orderlist);
     const orderListContainer = document.querySelector('.order-container');
     if(orderlist){
         for(let i = 0; i < orderlist.length; i++){
             const link = document.createElement('a');
             const order = new DivElement('', 'order').create();
             const number = new DivElement(orderlist[i]['orderId'], 'number').create();
-            const name = new DivElement(orderlist[i]['attraction'], 'name').create();
+            const name = new DivElement(orderlist[i]['name'], 'name').create();
             const price = new DivElement(orderlist[i]['price'], 'price').create();
     
             link.href = `/thankyou?number=${orderlist[i]['orderId']}`
