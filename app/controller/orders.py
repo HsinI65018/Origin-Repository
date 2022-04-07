@@ -40,25 +40,27 @@ def create_order():
             }
             response = requests.post(url, data=json.dumps(request_data), headers=headers)
             response_content = json.loads(response.content)
-            response = make_response({"data": response_content}, 200)
-            # if(response_content["status"] == 0):
-            #     response_data = {
-            #         "number": response_content["order_number"],
-            #         "payment": {
-            #             "status": response_content["status"],
-            #             "message": response_content["msg"]
-            #         }
-            #     }
-            #     # value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
-            #     # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
-            #     # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
-            #     # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
-            #     # if(undelete_items != []):
-            #     #     for item in undelete_items:
-            #     #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
-            #     response = make_response({"data": response_data}, 200)
-            # else:
-            #     response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
+            # print(type(response_content))
+            # response = make_response({"data": response_content}, 200)
+            # print(response_content["status"] == 0)
+            if(response_content["status"] == 0):
+                response_data = {
+                    "number": response_content["order_number"],
+                    "payment": {
+                        "status": response_content["status"],
+                        "message": response_content["msg"]
+                    }
+                }
+                value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
+                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
+                update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
+                # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
+                # if(undelete_items != []):
+                #     for item in undelete_items:
+                #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
+                response = make_response({"data": response_data}, 200)
+            else:
+                response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
         except:
             response = make_response({"error":True, "message":"Error message from server"}, 500)
     else:
@@ -70,19 +72,16 @@ def create_order():
 def get_single_order(orderNumber):
     token = request.cookies.get("JWT")
     if(token):
-        order_data = get_db("SELECT orderId, paymentStatus, date, time ,price, orderName, orderEmail, orderPhone, orderItem FROM orders WHERE orderId=%s", [orderNumber], 'one')
-        attraction_data = get_db("SELECT name, address, images FROM attractions WHERE id=%s", [order_data['orderItem']], 'one')
-        attraction_data['images'] = attraction_data['images'].split('https')
-        attraction_data['images'] = ['https' + i for i in attraction_data['images']][1:]
+        order_data = get_db("SELECT orderId, paymentStatus, date, time ,price, orderName, orderEmail, orderPhone, orderItem, attraction, address, image FROM orders WHERE orderId=%s", [orderNumber], 'one')
         data = {
             "number": order_data['orderId'],
             "price": order_data['price'],
             "trip": {
                 "attraction": {
                     "id": order_data['orderItem'],
-                    "name": attraction_data['name'],
-                    "address": attraction_data['address'],
-                    "image": attraction_data['images'][0],
+                    "name": order_data['attraction'],
+                    "address": order_data['address'],
+                    "image": order_data['image'],
                 },
                 "date": order_data['date'],
                 "time": order_data['time']
