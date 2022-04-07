@@ -49,9 +49,9 @@ def create_order():
                         "message": response_content["msg"]
                     }
                 }
-                value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
-                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
-                update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
+                # value = [order_number, response_content['status'], contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],data['order']['price'], attraction['name'], attraction['address'], attraction['image']]
+                # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", value, 'none')
+                # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
                 # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
                 # if(undelete_items != []):
                 #     for item in undelete_items:
