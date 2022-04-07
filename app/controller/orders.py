@@ -112,7 +112,7 @@ def get_orders():
         maxPage = math.floor(count / 4)
 
     page_range = page * 4
-    data = get_db("SELECT orderId, price, orderItem, name FROM orders JOIN attractions ON orderUser=%s LIMIT %s OFFSET %s", [email, 4, page_range], 'all')
+    data = get_db("SELECT orderId, price, orderItem, name FROM orders JOIN attractions ON orderItem=id WHERE orderUSer=%s LIMIT %s OFFSET %s", [email, 4, page_range], 'all')
     if(maxPage == page):
         response = make_response({"data": data, "nextPage": "NULL"}, 200)
     elif(maxPage > page):
