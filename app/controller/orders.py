@@ -55,7 +55,8 @@ def create_order():
                 print(type(attraction['image']))
                 order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser)VALUES(%s, %s, %s, %s, %s, %s, %s)", [order_number,0, contact['name'], contact['email'], contact['phone'], attraction['id'], email], 'none')
                 test = get_db("UPDATE orders SET date=%s, time=%s ,price=%s WHERE orderId=%s", [booking['date'], booking['time'], order['price'], order_number], 'none')
-                testattr = get_db("UPDATE orders SET attraction=%s, address=%s WHERE orderId=%s", [attraction['name'], attraction['address'], order_number], 'none')
+                testname = get_db("UPDATE orders SET attraction=%s WHERE orderId=%s", [attraction['name'], order_number], 'none')
+                testaddress = get_db("UPDATE orders SET address=%s WHERE orderId=%s", [attraction['address'], order_number], 'none')
                 testimg = get_db("UPDATE orders SET image=%s WHERE orderId=%s", [attraction['image'], order_number], 'none')
                 # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, 0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
                 # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
@@ -63,7 +64,7 @@ def create_order():
                 # if(undelete_items != []):
                 #     for item in undelete_items:
                 #         delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
-                response = make_response({"order": order_status, "test": test, "testattr": testattr, "testimg": testimg}, 200)
+                response = make_response({"order": order_status, "test": test, "name": testname,"address": testaddress, "testimg": testimg}, 200)
                 # response = make_response({"data": order_status}, 200)
             else:
                 response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
