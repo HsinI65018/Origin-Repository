@@ -21,6 +21,7 @@ def create_order():
             contact = order['contact']
             booking = order['trip']
             attraction = order['trip']['attraction']
+            print(booking)
             request_data = {
                 "prime": data['prime'],
                 "partner_key": "partner_zCbbaqaW49kZf9Gj1coC0hAWc22kkIBwXvofplwuIDBzJhjWVwate7Ui",
@@ -52,7 +53,7 @@ def create_order():
                         "message": response_content["msg"]
                     }
                 }
-                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number,0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
+                order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, attraction, address, image, price)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number,0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, attraction['name'], attraction['address'], attraction['image'], data['order']['price']], 'none')
                 # order_status = get_db("INSERT INTO orders (orderId, paymentStatus, orderName, orderEmail, orderPhone, orderItem, orderUser, date, time, price, attraction, address, image)VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [order_number, 0, contact['name'], contact['email'], contact['phone'], attraction['id'], email, booking['date'], booking['time'],order['price'], attraction['name'], attraction['address'], attraction['image']], 'none')
                 # update_status = get_db("UPDATE booking SET paymentStatus=0 WHERE bookingItem=%s", [attraction['id']], 'none')
                 # undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
