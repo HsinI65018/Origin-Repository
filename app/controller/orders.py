@@ -54,8 +54,7 @@ def create_order():
                 undelete_items = get_db("SELECT bookingItem FROM booking WHERE bookingUser=%s AND paymentStatus=1", [email], 'all')
                 if(undelete_items != []):
                     for item in undelete_items:
-                        id = item['bookingItem']
-                        delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [id], 'none')
+                        delete_item = get_db("DELETE FROM booking WHERE bookingItem=%s", [item['bookingItem']], 'none')
                 response = make_response({"data": response_data}, 200)
             else:
                 response = make_response({"error": True, "message": "Failed to pay", "order_number": order_number}, 400)
