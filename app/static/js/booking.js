@@ -138,13 +138,14 @@ const handleSubmit = (e) => {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            if(data['error']){
-                errorForm.classList.remove('hide');
-                errorForm.classList.add('show-animation');
-            }else{
-                let orderNumber = data['data']['number'];
-                window.location = `/thankyou?number=${orderNumber}`;
-            }
+            console.log(data)
+            // if(data['error']){
+            //     errorForm.classList.remove('hide');
+            //     errorForm.classList.add('show-animation');
+            // }else{
+            //     let orderNumber = data['data']['number'];
+            //     window.location = `/thankyou?number=${orderNumber}`;
+            // }
         }).catch((e) => {
             console.log(e)
         })
