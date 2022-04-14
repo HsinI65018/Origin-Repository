@@ -1,13 +1,19 @@
-from flask import *
 from app.model.utility import get_db
 
-class Attractions_db:
-    def attraction(keyword, page_range):
-        count_data = get_db("SELECT COUNT(*) FROM attractions WHERE name LIKE %s", ['%'+keyword+'%'], 'all')[0]['COUNT(*)']
-        data = get_db("SELECT id,name,category,description,address,transport,mrt,latitude,longitude,images FROM attractions WHERE name LIKE %s LIMIT %s OFFSET %s", ['%'+keyword+'%', 12, page_range], 'all')
-        return {'count_data':count_data, 'data':data}
+class AttractionDb:
+    def count_attractions(keyword):
+        count = get_db("SELECT COUNT(*) FROM attractions WHERE name LIKE %s", ['%'+keyword+'%'], 'all')[0]['COUNT(*)']
+        return count
 
-    def single_attraction(attractionId):
+    def get_attractions(keyword, page_range):
+        values = ['%'+keyword+'%', 12, page_range]
+        data = get_db("SELECT id,name,category,description,address,transport,mrt,latitude,longitude,images FROM attractions WHERE name LIKE %s LIMIT %s OFFSET %s", values, 'all')
+        return data
+
+    def get_id(attractionId):
         id = get_db("SELECT id FROM attractions WHERE id=%s",[attractionId],'one')
+        return id
+
+    def get_attraction(attractionId):
         data = get_db("SELECT id,name,category,description,address,transport,mrt,latitude,longitude,images FROM attractions WHERE id=%s", [attractionId], 'one')
-        return {'id':id, 'data':data}
+        return data
