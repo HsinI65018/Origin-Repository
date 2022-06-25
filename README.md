@@ -20,19 +20,19 @@
 - CVV: 123
     
 #### Book the attraction you like
-- Users can find the attraction with keywords.
+- Users can find attractions with keywords.
 - Users can book the trip after login.
 <img src="app/static/img/home.gif"/>
   
 #### Pay with credit card and check the order list
 - Users can pay the trip with credit card.
 - Users can check the order list in member page.
-- Users can update the password in member page. 
+- Users can update password in member page. 
 <img src="app/static/img/order.gif"/>
     
 ## Main Features
 - Use Json Web Token to achieve authentication.
-- Deploy the prohect to AWS EC2.
+- Deploy the project to AWS EC2.
 - Use TapPay as Third-Party Payment System.
 - Build Member System with RESTful API.
 - Build Infinite Scroller and Carousel Slider with Pure JavaScript.
