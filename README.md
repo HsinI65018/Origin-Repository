@@ -1,11 +1,11 @@
 # Taipei-Day-Trip
 
 <div align="center">
-<!--   <a href="https://between.website/">
-    <img src="public/img/logo.png"/>
+  <a href="http://18.140.251.171:3000/">
+    <img src="app/static/img/logo.png"/>
   </a>
-  <h4>Between helps you find someone that matches your personality.</h4>
-  <h5>We use MBTI to feature yourself and your future friends.</h5> -->
+  <h4>An e-commerce website which allow you to book a trip in Taipei city.</h4>
+  <h5>My first project in <a href="https://training.pada-x.com/wehelp/">WeHelp</a>.</h5>
 </div>
 
 ## Demo
@@ -19,37 +19,31 @@
 - Expiration Date: 01/23
 - CVV: 123
     
-<!-- #### Select MBIT type
-- Users can upload one image as prifile photo.
-- Users can edit information and choose there own MBTI type.
-<img src="public/img/member.gif"/> -->
+#### Book the attraction you like
+- Users can find the attraction with keywords.
+- Users can book the trip after login.
+<img src="app/static/img/home.gif"/>
   
-<!-- #### Match with someone you like
-- Users will only meet each person one time.
-- Click the arrow button to switch the person.
-- Click LIKE to wait for match success. 
-<img src="public/img/match.gif"/> -->
-    
-<!-- #### Real-time chat
-- Users can chat with friends when there is a match success.    
-<img src="public/img/chat.gif"/>      -->
+#### Pay with credit card and check the order list
+- Users can pay the trip with credit card.
+- Users can check the order list in member page.
+- Users can update the password in member page. 
+<img src="app/static/img/order.gif"/>
     
 ## Main Features
-<!-- - Support signup locally and Google OAuth 2.0.
 - Use Json Web Token to achieve authentication.
-- Store user profile image in AWS S3 and use Cloud Front as CDN.
-- Use AWS RDS as Database and set index to optimize query.
-- Random same MBTI type person to user as first priority.
-- Use Socket IO for real-time chat.
-- Use AWS ElastiCache to improve loading speed for user's friend list and chatting history.
-- Support mobile devises. -->
+- Deploy the prohect to AWS EC2.
+- Use TapPay as Third-Party Payment System.
+- Build Member System with RESTful API.
+- Build Infinite Scroller and Carousel Slider with Pure JavaScript.
+- Create RWD layout using HTML and CSS Grid.
 
 
 ## System Architecture
-<img src="public/img/structure.png"/>
+<img src="app/static/img/structure.png"/>
     
 ## Database Schema
-<img src="public/img/schema.png"/>
+<img src="app/static/img/db.png"/>
     
 ## Backend Technique
 #### Environment
