@@ -43,7 +43,7 @@
 <img src="app/static/img/structure.png"/>
     
 ## Database Schema
-<img src="app/static/img/db.png"/>
+<img src="app/static/img/schema.png"/>
     
 ## Backend Technique
 #### Environment
